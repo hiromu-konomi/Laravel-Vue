@@ -2,78 +2,31 @@
 
 namespace App\Http\Controllers\Auth\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+class LoginController extends Controller {
 
-class LoginController extends Controller
-{
-    use AuthenticatesUsers;
+    public function login(Request $request) {
 
-    /**
-     * Handle a login request to the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function login(Request $request)
-    {
-        // バリデーション
-        $this->validateLogin($request);
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-        // ユーザーの取得
-        $user = User::where('email', $request->email)->first();
-
-        // 取得できない場合、パスワードが不一致の場合エラー
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => [__('failed')],
-            ]);
+        if (Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Login successful'], 200);
         }
 
-        // tokenの作成
-        $token = $user->createToken($request->device_name)->plainTextToken;
-
-        return response()->json(['token' => $token, 'user' => $user], 200);
-    }
-
-    /**
-     * Validate the user login request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function validateLogin(Request $request)
-    {
-        // オーバーライドして、デバイス名を必須化しています
-        $request->validate([
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-            'device_name' => 'required'
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect'],
         ]);
     }
 
-
-    /**
-     * Handle a logout request to the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
-     */
-    public function logout(Request $request)
+    public function logout()
     {
-        $user = $request->user();
-
-        // tokenの削除
-        $user->tokens()->delete();
-
-        return response()->json(['message' => 'logouted']);
+        Auth::logout();
+        return response()->json(['message' => 'Logged out'], 200);
     }
 }

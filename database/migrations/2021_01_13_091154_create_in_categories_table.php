@@ -14,7 +14,7 @@ class CreateInCategoriesTable extends Migration
     public function up()
     {
         Schema::create('in_categories', function (Blueprint $table) {
-            $table->bigIncrements('in_category_id');
+            $table->id();
             $table->string('in_category_name');
             $table->string('in_category_color');
             $table->integer('user_id');

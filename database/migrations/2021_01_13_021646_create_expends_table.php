@@ -14,7 +14,7 @@ class CreateExpendsTable extends Migration
     public function up()
     {
         Schema::create('expends', function (Blueprint $table) {
-            $table->bigIncrements('expend_id');
+            $table->id();
             $table->string('expend_name', 45);
             $table->integer('expend_price');
             $table->date('expend_date');

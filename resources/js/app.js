@@ -29,17 +29,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 
-const router = new VueRouter({
-    mode: 'history',
-    routes: [
-        {
-            path: '/login',
-            name: 'login',
-            component: LoginComponent
-        },
-    ]
-});
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -48,6 +37,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    router,
+    router: router,
     Vuetify: new Vuetify(),
 });

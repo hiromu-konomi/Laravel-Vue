@@ -14,7 +14,7 @@ class CreateExCategoriesTable extends Migration
     public function up()
     {
         Schema::create('ex_categories', function (Blueprint $table) {
-            $table->bigIncrements('ex_category_id');
+            $table->id();
             $table->string('ex_category_name', 45);
             $table->string('ex_category_color', 45);
             $table->integer('user_id');

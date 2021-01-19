@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import VueRouter from 'vue-router';
+import router from './router';
 import LoginComponent from './components/LoginComponent.vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
@@ -24,9 +24,8 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('home', require('./components/Home.vue').default);
 
-Vue.use(VueRouter);
 Vue.use(Vuetify);
 
 /**
@@ -38,5 +37,13 @@ Vue.use(Vuetify);
 const app = new Vue({
     el: '#app',
     router: router,
-    Vuetify: new Vuetify(),
+    vuetify: new Vuetify({
+        theme: {
+            themes: {
+                light: {
+                    background: "#E6EE9C"
+                }
+            }
+        }
+    }),
 });

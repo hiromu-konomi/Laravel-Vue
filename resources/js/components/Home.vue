@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-app-bar
-            absolute
+            app
             color="green"
             dark
         >

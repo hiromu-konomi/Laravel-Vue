@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Sanctumサンプル</title>
+    <title>楽楽Kakebo</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
 <body>
     <div id="app">
-        <router-view />
+        <home></home>
     </div>
 </body>
 

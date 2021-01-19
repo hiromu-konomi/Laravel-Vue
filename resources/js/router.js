@@ -1,5 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Home from "./components/Home.vue";
+import Form from "./components/Form.vue";
+import List from "./components/List.vue";
+import Report from "./components/Report.vue";
+import Calendar from "./components/Calendar.vue";
 
 Vue.use(VueRouter);
 
@@ -9,6 +14,27 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode: "history",
     routes: [
+        
+                {
+                    path: "/",
+                    name: "Form",
+                    component: Form,
+                },
+                {
+                    path: "/list",
+                    name: "List",
+                    component: List,
+                },
+                {
+                    path: "/report",
+                    name: "Report",
+                    component: Report,
+                },
+                {
+                    path: "/calendar",
+                    name: "Calendar",
+                    component: Calendar,
+                },
 //         {
 //             path: "/login",
 //             name: "login",

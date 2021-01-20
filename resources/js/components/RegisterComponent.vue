@@ -63,7 +63,7 @@
                                     outlined
                                     prepend-icon="mdi-lock"
                                     label="確認用パスワード"
-                                    v-model="passwords"
+                                    v-model="confrimPasswords"
                                     :rules="[passwordRules, passwordLimit]"
                                     @click:append="show = !show"
                                 ></v-text-field>
@@ -85,6 +85,7 @@ export default {
         return {
             emailbody: "",
             password: "",
+            confirmPassword: "",
             domain: { address: 'rakus-partners.co.jp' },
             items: [
                 { address: 'rakus-partners.co.jp' },
@@ -97,15 +98,15 @@ export default {
             passwordRules: (value) => !!value || "パスワードを入力してください",
             passwordLimit: (value) =>
                 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,15}$/.test(value) ||
-                "8文字以上15文字以下で入力してください。ただし半角英小文字大文字数字を含んでください",
+                "8文字以上15文字以下で入力してください。ただし半角英小文字大文字数字(特殊記号以外)を含んでください",
             check: (value) => !!value || "選択してください",
         }
     },
     computed: {
         toggle() {
-        const icon = this.show ? "mdi-eye" : "mdi-eye-off";
-        const type = this.show ? "text" : "password";
-        return {icon, type};
+            const icon = this.show ? "mdi-eye" : "mdi-eye-off";
+            const type = this.show ? "text" : "password";
+            return {icon, type};
         },
     },
     methods: {

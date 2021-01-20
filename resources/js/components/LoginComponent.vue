@@ -15,11 +15,14 @@
                                 :rules="[emailRules]"
                             ></v-text-field>
                             <v-text-field
+                                :append-icon="toggle.icon"
+                                :type="toggle.type"
+                                outlined
                                 prepend-icon="mdi-lock"
                                 label="パスワード"
                                 v-model="password"
-                                outlined
                                 :rules="[passwordRules, passwordLimit]"
+                                @click:append="show = !show"
                             ></v-text-field>
                             <div>
                                 <v-btn color="teal lighten-3" @click="Login">ログイン</v-btn>
@@ -40,8 +43,16 @@ export default {
             passwordRules: (value) => !!value || "パスワードを入力してください",
             passwordLimit: (value) =>
                 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,15}$/.test(value) ||
-                "8文字以上15文字以下で入力してください。ただし半角英小文字大文字数字を含んでください",
+                "8文字以上15文字以下で入力してください。ただし半角英小文字大文字数字(特殊記号以外)を含んでください",
+            show: false,
         }
+    },
+    computed: {
+        toggle() {
+            const icon = this.show ? "mdi-eye" : "mdi-eye-off";
+            const type = this.show ? "text" : "password";
+            return {icon, type};
+        },
     },
 }
 </script>

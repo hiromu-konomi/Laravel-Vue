@@ -5,11 +5,10 @@
  */
 
 import router from './router';
-import LoginComponent from './components/LoginComponent.vue';
+import store from './store/index';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
-
-require('./bootstrap');
+import '@mdi/font/css/materialdesignicons.min.css';
 
 window.Vue = require('vue').default;
 
@@ -37,6 +36,7 @@ Vue.use(Vuetify);
 const app = new Vue({
     el: '#app',
     router: router,
+    store: store,
     vuetify: new Vuetify({
         theme: {
             themes: {
@@ -44,6 +44,7 @@ const app = new Vue({
                     background: "#E6EE9C"
                 }
             }
-        }
+        },
+        iconfont: 'mdi',
     }),
 });

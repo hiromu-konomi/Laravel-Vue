@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Chart from './Chart';
+import Chart from './parts/Chart';
 
 export default {
     name: "Report",

@@ -124,9 +124,9 @@ export default {
             // 収入フォームの表示
             inForm: false,
 
-            // 支出フォームに入力された値
+            // 支出フォームに入力された値のオブジェクト
             exData: {},
-            // 収入フォームに入力された値
+            // 収入フォームに入力された値のオブジェクト
             inData: {},
 
             // バリデーション
@@ -154,13 +154,17 @@ export default {
         submit() {
             if (this.$refs.test_form.validate()) {
                 if (this.exForm) {
-                    this.$router.push({name:'List'});
-                    this.exData = {};
-                    this.inData = {};
+                    axios.post('/api/expends', this.exData).then((res) => {
+                        this.$router.push({name:'List'});
+                        this.exData = {};
+                        this.inData = {};
+                    });
                 } else if (this.inForm) {
-                    this.$router.push({name:'List'});
-                    this.exData = {};
-                    this.inData = {};
+                    axios.post('/api/incomes', this.inData).then((res) => {
+                        this.$router.push({name:'List'});
+                        this.exData = {};
+                        this.inData = {};
+                    });
                 } else {
                     alert("正常に処理されませんでした");
                 }

@@ -1,4 +1,7 @@
-const state = {}
+const state = {
+    exData: [],
+    inData: [],
+}
 
 const getters = {}
 

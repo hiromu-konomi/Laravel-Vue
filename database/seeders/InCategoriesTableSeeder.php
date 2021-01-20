@@ -15,11 +15,7 @@ class InCategoriesTableSeeder extends Seeder
     public function run()
     {
         for ($i = 1; $i <= 10; $i++) {
-            InCategory::create([
-                'in_category_name' => 'in_category_name'.$i,
-                'in_category_color' => 'in_category_color'.$i,
-                'user_id' => 'user_id'.$i,
-            ]);
+            InCategory::factory()->create();
         }
     }
 }

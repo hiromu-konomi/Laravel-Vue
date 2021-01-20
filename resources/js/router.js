@@ -5,16 +5,15 @@ import Form from "./components/Form.vue";
 import List from "./components/List.vue";
 import Report from "./components/Report.vue";
 import Calendar from "./components/Calendar.vue";
+import Register from "./components/RegisterComponent.vue";
+import login from "./components/LoginComponent.vue";
+// import about from "./components/about.vue";
 
 Vue.use(VueRouter);
-
-// import login from "./components/LoginComponent.vue";
-// import about from "./components/about.vue";
 
 const router = new VueRouter({
     mode: "history",
     routes: [
-        
                 {
                     path: "/",
                     name: "Form",
@@ -35,12 +34,17 @@ const router = new VueRouter({
                     name: "Calendar",
                     component: Calendar,
                 },
-//         {
-//             path: "/login",
-//             name: "login",
-//             component: login,
-//             meta: { guestOnly: true }
-//         },
+                {
+                    path: "/register",
+                    name: "Register",
+                    component: Register,
+                },
+                {
+                    path: "/login",
+                    name: "login",
+                    component: login,
+                    // meta: { guestOnly: true }
+                },
 //         {
 //             path: "/about",
 //             name: "about",

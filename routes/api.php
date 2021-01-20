@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ExpendsController;
+use App\Http\Controllers\IncomesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::get('/expends', [ExpendsController::class, 'index']);
+Route::post('/expends', [ExpendsController::class, 'store']);
+Route::post('/incomes', [IncomesController::class, 'store']);
 
-Route::post('/login', 'LoginController@login');
-Route::post('/logout', 'LoginController@logout');
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// Route::post('/login', 'LoginController@login');
+// Route::post('/logout', 'LoginController@logout');

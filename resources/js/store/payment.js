@@ -1,13 +1,23 @@
+import axios from "axios"
+
 const state = {
-    exData: [],
-    inData: [],
+    exDatas: [],
+    inDatas: [],
 }
 
 const getters = {}
 
 const mutations = {}
 
-const actions = {}
+const actions = {
+
+    async getTotalThisYear({ commit }) {
+        axios.get('api/totalYear')
+            .then((res) => {
+            })
+    }
+
+}
 
 export default {
     namespaced: true,

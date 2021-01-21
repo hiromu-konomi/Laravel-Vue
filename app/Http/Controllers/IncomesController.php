@@ -10,4 +10,9 @@ class IncomesController extends Controller
     public function store(Request $request) {
         return Income::create($request->all());
     }
+
+    public function index(){
+        return Income::all();
+    }
+
 }

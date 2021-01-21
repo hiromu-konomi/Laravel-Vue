@@ -5,7 +5,7 @@
                 <v-card-actions>
                     <v-flex class="text-center">
                         <v-btn-toggle
-                            v-model="selected"
+                            v-model="selectedForm"
                             mandatory
                         >
                             <v-btn color="blue" text @click="showExForm">支出</v-btn>
@@ -118,7 +118,7 @@ export default {
     data() {
         return {
             // 収支切り替えボタンの選択
-            selected: undefined,
+            selectedForm: undefined,
             // 支出フォームの表示
             exForm: true,
             // 収入フォームの表示

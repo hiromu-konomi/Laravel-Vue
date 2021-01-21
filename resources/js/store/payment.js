@@ -7,16 +7,28 @@ const state = {
 
 const getters = {}
 
-const mutations = {}
+const mutations = {
+    getExDatas(state, resData) {
+        state.exDatas = resData;
+    },
+
+    getInDatas(state, resData) {
+        state.inDatas = resData;
+    },
+}
 
 const actions = {
+    async getExDatas({commit}) {
+        await axios.get('/api/expends').then((res) => {
+            commit("getExDatas", res.data);
+        });
+    },
 
-    async getTotalThisYear({ commit }) {
-        axios.get('api/totalYear')
-            .then((res) => {
-            })
-    }
-
+    async getInDatas({commit}) {
+        await axios.get('/api/incomes').then((res) => {
+            commit("getInDatas", res.data);
+        });
+    },
 }
 
 export default {

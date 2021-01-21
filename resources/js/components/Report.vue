@@ -4,16 +4,16 @@
             <v-card>
                 <v-card-title>
                     <v-layout justify-center>
-                        羅苦羅苦レポート
+                        レポート
                     </v-layout>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-layout justify-center>
                         <div>
-                            <p>支出 : {{ this.expendForMonth }}円</p>
-                            <p>収入 : {{ this.incomeForMonth }}円</p>
-                            <p>収支 : {{ this.totalForMonth }}円</p>
+                            <p>支出 : {{ $store.getters['payment/sumExpenditure'] }}円</p>
+                            <p>収入 : {{ $store.getters['payment/sumIncome'] }}円</p>
+                            <p>収支 : {{ $store.getters['payment/sumBalance'] }}円</p>
                         </div>
                     </v-layout>
                 </v-card-text>
@@ -33,12 +33,21 @@ export default {
     components: {
         Chart,
     },
+    async created() {
+        await this.calculatePrice();
+    },
     data() {
         return {
-            expendForMonth: '10000',
-            incomeForMonth: '100000',
-            totalForMonth: '90000',
+            sumExpenditure: "",
+            sumIncome: "",
+            sumBalance: "",
         }
+    },
+    methods: {
+        async calculatePrice() {
+            await this.$store.dispatch('payment/getExDatas');
+            await this.$store.dispatch('payment/getInDatas');
+        },
     }
 }
 </script>

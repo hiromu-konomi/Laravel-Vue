@@ -6,10 +6,12 @@ import payment from './payment';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     modules: {
         auth,
         category,
         payment
     }
 })
+
+export default store

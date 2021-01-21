@@ -16,10 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/incomes', [IncomesController::class, 'index']);
 Route::get('/expends', [ExpendsController::class, 'index']);
-
 Route::post('/expends', [ExpendsController::class, 'store']);
+Route::get('/incomes', [IncomesController::class, 'index']);
 Route::post('/incomes', [IncomesController::class, 'store']);
 
 

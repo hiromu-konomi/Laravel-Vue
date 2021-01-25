@@ -16,7 +16,6 @@
                 <v-spacer></v-spacer>
 
                 <v-btn-toggle
-                    v-model="selectedTable"
                     mandatory
                 >
                     <v-btn color="blue" text @click="showExTable">支出</v-btn>
@@ -65,8 +64,6 @@ export default {
 
     data() {
         return {
-            // 収支切り替えボタンの選択
-            selectedTable: undefined,
             // 支出テーブルの表示
             exTable: true,
             // 収入テーブルの表示

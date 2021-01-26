@@ -1,4 +1,4 @@
-import axios from "axios";
+import moment from "moment"
 
 const state = {
     exDatas: [],
@@ -24,6 +24,35 @@ const getters = {
 
     sumBalance() {
         return getters.sumIncome(state) - getters.sumExpenditure(state);
+    },
+
+    exInToCalender() {
+        const events = [];
+        for(let ex of state.exDatas){
+            const exEvent = {
+                name: '支出：' + ex.expend_price + '円',
+                start: moment(ex.expend_date).toDate(),
+                end: moment(ex.expend_date).toDate(),
+                color: 'red',
+                timed: false,
+            }
+            console.log("exEvent = " + exEvent);
+            events.push(exEvent);
+        }
+        for (let inc of state.inDatas) {
+            const inEvent = {
+                name: '収入：' + inc.income_price + '円',
+                start: moment(inc.income_date).toDate(),
+                end: moment(inc.income_date).toDate(),
+                color: 'blue',
+                timed: false,
+            }
+            console.log("inEvent = " + inEvent);
+            events.push(inEvent);
+        }
+        console.log("events = ");
+        console.log(events);
+        return events;
     }
 }
 

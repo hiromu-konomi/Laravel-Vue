@@ -15,4 +15,8 @@ class IncomesController extends Controller
         return Income::all();
     }
 
+    public function destroy(Income $income) {
+        $income->delete();
+        return $income;
+    }
 }

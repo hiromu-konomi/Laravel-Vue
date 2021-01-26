@@ -14,4 +14,9 @@ class ExpendsController extends Controller
     public function store(Request $request) {
         return Expend::create($request->all());
     }
+
+    public function destroy(Expend $expend) {
+        $expend->delete();
+        return $expend;
+    }
 }

@@ -90,8 +90,8 @@
 
                             <v-layout justify-center>
                                 <v-btn
-                                    color="red accent-3"
-                                    class="mgt"
+                                    color="blue accent-3"
+                                    class="mgtb"
                                     dark
                                     depressed
                                     @click="addExCategory"
@@ -182,5 +182,9 @@ export default {
 <style scoped>
 .mgt {
     margin-top: 5%;
+}
+.mgtb {
+    margin-top: 7%;
+    margin-bottom: 5%;
 }
 </style>

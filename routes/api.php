@@ -20,8 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/expends', [ExpendsController::class, 'index']);
 Route::post('/expends', [ExpendsController::class, 'store']);
+Route::delete('/expends/{expend}', [ExpendsController::class, 'destroy']);
 Route::get('/incomes', [IncomesController::class, 'index']);
 Route::post('/incomes', [IncomesController::class, 'store']);
+Route::delete('/incomes/{income}', [IncomesController::class, 'destroy']);
 Route::get('/ex_categories', [ExCategoriesController::class, 'index']);
 Route::post('/ex_categories', [ExCategoriesController::class, 'store']);
 Route::get('/ex_categories/{exCategory}', [ExCategoriesController::class, 'show']);

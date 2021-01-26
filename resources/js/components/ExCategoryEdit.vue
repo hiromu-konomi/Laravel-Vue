@@ -47,7 +47,7 @@
 
                 <v-layout row wrap justify-center class="mgt">
                     <v-flex xs10>
-                        <v-form ref="test_form_category">
+                        <v-form ref="test_form">
                             <span class="font-weight-bold">カテゴリー名：{{ exCateData.ex_category_name }}</span>
 
                             <v-text-field
@@ -168,9 +168,9 @@ export default {
         },
 
         async addExCategory() {
-            if (this.$refs.test_form_category.validate()) {
+            if (this.$refs.test_form.validate()) {
                 axios.post('/api/ex_categories', this.exCateData).then(() => {
-                    this.$refs.test_form_category.reset();
+                    this.$refs.test_form.reset();
                     this.refresh();
                 });
             }

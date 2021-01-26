@@ -15,6 +15,10 @@ class ExCategoriesController extends Controller
         return ExCategory::create($request->all());
     }
 
+    public function show(ExCategory $exCategory) {
+        return $exCategory;
+    }
+
     public function destroy(ExCategory $exCategory) {
         $exCategory->delete();
         return $exCategory;

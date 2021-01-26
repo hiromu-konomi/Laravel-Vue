@@ -59,11 +59,16 @@
 
                                 <v-row align="center" justify="start">
                                     <v-col md="4">
-                                        <span class="font-weight-bold">カテゴリー：{{ exData.ex_category_id }}</span>
+                                        <span class="font-weight-bold">
+                                            カテゴリー：
+                                            <span v-if="exData.ex_category_id">
+                                                {{ showExCategoryName(exData.ex_category_id) }}
+                                            </span>
+                                        </span>
                                     </v-col>
 
                                     <v-col md="4">
-                                        <CategoryEdit/>
+                                        <ExCategoryEdit/>
                                     </v-col>
                                 </v-row>
                                 
@@ -119,6 +124,43 @@
                                 >
                                     <template v-slot:append-outer>円</template>
                                 </v-text-field>
+
+                                <v-row align="center" justify="start">
+                                    <v-col md="4">
+                                        <span class="font-weight-bold">
+                                            カテゴリー：
+                                            <span v-if="inData.in_category_id">
+                                                {{ showInCategoryName(inData.in_category_id) }}
+                                            </span>
+                                        </span>
+                                    </v-col>
+
+                                    <v-col md="4">
+                                        <InCategoryEdit/>
+                                    </v-col>
+                                </v-row>
+                                
+
+                                <v-chip-group
+                                    v-if="$store.state.category.inCateDatas.length"
+                                    v-model="inData.in_category_id"
+                                    mandatory
+                                    column
+                                >
+                                    <v-chip
+                                        v-for="iC in $store.state.category.inCateDatas"
+                                        :key="iC.id"
+                                        :value="iC.id"
+                                        :color="iC.in_category_color"
+                                        class="ma-2"
+                                        outlined
+                                        label
+                                    >
+                                        {{ iC.in_category_name }}
+                                    </v-chip>
+                                </v-chip-group>
+
+                                <span v-else>選択できるカテゴリーがありません。</span>
                             </v-form>
                         </v-flex>
                     </v-layout>
@@ -138,14 +180,16 @@
 
 <script>
 import DatePicker from './parts/DatePicker.vue';
-import CategoryEdit from './CategoryEdit.vue';
+import ExCategoryEdit from './ExCategoryEdit.vue';
+import InCategoryEdit from './InCategoryEdit.vue';
 
 export default {
     name: "Form",
 
     components: {
         DatePicker,
-        CategoryEdit
+        ExCategoryEdit,
+        InCategoryEdit
     },
 
     async created() {
@@ -169,6 +213,11 @@ export default {
             // 収入カテゴリーのオブジェクトの配列
             inCateDatas: [],
 
+            // 選択された支出カテゴリー名
+            exCategoryName: '',
+            // 選択された収入カテゴリー名
+            inCategoryName: '',
+
             // 入力規則
             date_required: value => !!value || "日付を右横のカレンダーから選択してください",
             required: value => !!value || "項目名を入力してください",
@@ -177,6 +226,26 @@ export default {
                 required: value => !!value || "金額を入力してください",
                 regex: value => /^[0-9０-９]+$/.test(value) || "数字のみしか入力できません",
             },
+        }
+    },
+
+    computed: {
+        showExCategoryName: function() {
+            return function(value) {
+                axios.get('/api/ex_categories/' + value).then((res) => {
+                    this.exCategoryName = res.data.ex_category_name;
+                });
+                return this.exCategoryName;
+            }
+        },
+
+        showInCategoryName: function() {
+            return function(value) {
+                axios.get('/api/in_categories/' + value).then((res) => {
+                    this.inCategoryName = res.data.in_category_name;
+                });
+                return this.inCategoryName;
+            }
         }
     },
 

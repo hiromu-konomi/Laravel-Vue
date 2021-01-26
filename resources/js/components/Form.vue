@@ -252,6 +252,7 @@ export default {
     methods: {
         async refresh() {
             await this.$store.dispatch('category/getExCateDatas');
+            await this.$store.dispatch('category/getInCateDatas');
         },
 
         showExForm() {

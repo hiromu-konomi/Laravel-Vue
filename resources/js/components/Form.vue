@@ -5,7 +5,6 @@
                 <v-card-actions>
                     <v-flex class="text-center">
                         <v-btn-toggle
-                            v-model="selectedForm"
                             mandatory
                         >
                             <v-btn color="blue" text @click="showExForm">支出</v-btn>
@@ -57,6 +56,43 @@
                                 >
                                     <template v-slot:append-outer>円</template>
                                 </v-text-field>
+
+                                <v-row align="center" justify="start">
+                                    <v-col md="4">
+                                        <span class="font-weight-bold">
+                                            カテゴリー：
+                                            <span v-if="exData.ex_category_id">
+                                                {{ showExCategoryName(exData.ex_category_id) }}
+                                            </span>
+                                        </span>
+                                    </v-col>
+
+                                    <v-col md="4">
+                                        <ExCategoryEdit/>
+                                    </v-col>
+                                </v-row>
+                                
+
+                                <v-chip-group
+                                    v-if="$store.state.category.exCateDatas.length"
+                                    v-model="exData.ex_category_id"
+                                    mandatory
+                                    column
+                                >
+                                    <v-chip
+                                        v-for="eC in $store.state.category.exCateDatas"
+                                        :key="eC.id"
+                                        :value="eC.id"
+                                        :color="eC.ex_category_color"
+                                        class="ma-2"
+                                        outlined
+                                        label
+                                    >
+                                        {{ eC.ex_category_name }}
+                                    </v-chip>
+                                </v-chip-group>
+
+                                <span v-else>選択できるカテゴリーがありません。</span>
                             </v-form>
 
                             <v-form v-if="inForm" ref="test_form">
@@ -88,6 +124,43 @@
                                 >
                                     <template v-slot:append-outer>円</template>
                                 </v-text-field>
+
+                                <v-row align="center" justify="start">
+                                    <v-col md="4">
+                                        <span class="font-weight-bold">
+                                            カテゴリー：
+                                            <span v-if="inData.in_category_id">
+                                                {{ showInCategoryName(inData.in_category_id) }}
+                                            </span>
+                                        </span>
+                                    </v-col>
+
+                                    <v-col md="4">
+                                        <InCategoryEdit/>
+                                    </v-col>
+                                </v-row>
+                                
+
+                                <v-chip-group
+                                    v-if="$store.state.category.inCateDatas.length"
+                                    v-model="inData.in_category_id"
+                                    mandatory
+                                    column
+                                >
+                                    <v-chip
+                                        v-for="iC in $store.state.category.inCateDatas"
+                                        :key="iC.id"
+                                        :value="iC.id"
+                                        :color="iC.in_category_color"
+                                        class="ma-2"
+                                        outlined
+                                        label
+                                    >
+                                        {{ iC.in_category_name }}
+                                    </v-chip>
+                                </v-chip-group>
+
+                                <span v-else>選択できるカテゴリーがありません。</span>
                             </v-form>
                         </v-flex>
                     </v-layout>
@@ -107,18 +180,24 @@
 
 <script>
 import DatePicker from './parts/DatePicker.vue';
+import ExCategoryEdit from './ExCategoryEdit.vue';
+import InCategoryEdit from './InCategoryEdit.vue';
 
 export default {
     name: "Form",
 
     components: {
-        DatePicker
+        DatePicker,
+        ExCategoryEdit,
+        InCategoryEdit
+    },
+
+    async created() {
+        await this.refresh();
     },
 
     data() {
         return {
-            // 収支切り替えボタンの選択
-            selectedForm: undefined,
             // 支出フォームの表示
             exForm: true,
             // 収入フォームの表示
@@ -129,7 +208,17 @@ export default {
             // 収入フォームに入力された値のオブジェクト
             inData: {},
 
-            // バリデーション
+            // 支出カテゴリーのオブジェクトの配列
+            exCateDatas: [],
+            // 収入カテゴリーのオブジェクトの配列
+            inCateDatas: [],
+
+            // 選択された支出カテゴリー名
+            exCategoryName: '',
+            // 選択された収入カテゴリー名
+            inCategoryName: '',
+
+            // 入力規則
             date_required: value => !!value || "日付を右横のカレンダーから選択してください",
             required: value => !!value || "項目名を入力してください",
             limit_length: value => value && value.length <= 10 || "10文字以内でお願いします",
@@ -140,7 +229,31 @@ export default {
         }
     },
 
+    computed: {
+        showExCategoryName: function() {
+            return function(value) {
+                axios.get('/api/ex_categories/' + value).then((res) => {
+                    this.exCategoryName = res.data.ex_category_name;
+                });
+                return this.exCategoryName;
+            }
+        },
+
+        showInCategoryName: function() {
+            return function(value) {
+                axios.get('/api/in_categories/' + value).then((res) => {
+                    this.inCategoryName = res.data.in_category_name;
+                });
+                return this.inCategoryName;
+            }
+        }
+    },
+
     methods: {
+        async refresh() {
+            await this.$store.dispatch('category/getExCateDatas');
+        },
+
         showExForm() {
             this.exForm = true;
             this.inForm = false;
@@ -154,13 +267,13 @@ export default {
         submit() {
             if (this.$refs.test_form.validate()) {
                 if (this.exForm) {
-                    axios.post('/api/expends', this.exData).then((res) => {
+                    axios.post('/api/expends', this.exData).then(() => {
                         this.$router.push({name:'List'});
                         this.exData = {};
                         this.inData = {};
                     });
                 } else if (this.inForm) {
-                    axios.post('/api/incomes', this.inData).then((res) => {
+                    axios.post('/api/incomes', this.inData).then(() => {
                         this.$router.push({name:'List'});
                         this.exData = {};
                         this.inData = {};

@@ -192,10 +192,6 @@ export default {
         InCategoryEdit
     },
 
-    async created() {
-        await this.refresh();
-    },
-
     data() {
         return {
             // 支出フォームの表示
@@ -232,29 +228,22 @@ export default {
     computed: {
         showExCategoryName: function() {
             return function(value) {
-                axios.get('/api/ex_categories/' + value).then((res) => {
-                    this.exCategoryName = res.data.ex_category_name;
-                });
+                this.$store.dispatch('category/setExCateId', value);
+                this.exCategoryName = this.$store.getters['category/getExCateName'];
                 return this.exCategoryName;
             }
         },
 
         showInCategoryName: function() {
             return function(value) {
-                axios.get('/api/in_categories/' + value).then((res) => {
-                    this.inCategoryName = res.data.in_category_name;
-                });
+                this.$store.dispatch('category/setInCateId', value);
+                this.inCategoryName = this.$store.getters['category/getInCateName'];
                 return this.inCategoryName;
             }
         }
     },
 
     methods: {
-        async refresh() {
-            await this.$store.dispatch('category/getExCateDatas');
-            await this.$store.dispatch('category/getInCateDatas');
-        },
-
         showExForm() {
             this.exForm = true;
             this.inForm = false;
@@ -265,20 +254,20 @@ export default {
             this.inForm = true;
         },
 
-        submit() {
+        async submit() {
             if (this.$refs.test_form.validate()) {
                 if (this.exForm) {
-                    axios.post('/api/expends', this.exData).then(() => {
-                        this.$router.push({name:'List'});
-                        this.exData = {};
-                        this.inData = {};
-                    });
+                    await axios.post('/api/expends', this.exData);
+                    await this.$store.dispatch('payment/getExDatas');
+                    await this.$router.push({name:'List'});
+                    this.exData = {};
+                    this.inData = {};
                 } else if (this.inForm) {
-                    axios.post('/api/incomes', this.inData).then(() => {
-                        this.$router.push({name:'List'});
-                        this.exData = {};
-                        this.inData = {};
-                    });
+                    await axios.post('/api/incomes', this.inData);
+                    await this.$store.dispatch('payment/getInDatas');
+                    await this.$router.push({name:'List'});
+                    this.exData = {};
+                    this.inData = {};
                 } else {
                     alert("正常に処理されませんでした");
                 }

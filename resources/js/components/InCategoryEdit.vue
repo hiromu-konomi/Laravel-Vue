@@ -109,7 +109,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn color="blue accent-3" text @click="dialog = false">
+                <v-btn color="red accent-3" text @click="dialog = false">
                     キャンセル
                 </v-btn>
             </v-card-actions>

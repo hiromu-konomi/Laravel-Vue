@@ -78,8 +78,8 @@
 export default {
     name: "List",
 
-    async created() {
-        await this.refresh();
+    created() {
+        this.refresh();
     },
 
     data() {
@@ -114,30 +114,23 @@ export default {
     },
 
     methods: {
-        async refresh() {
-            await this.$store.dispatch('payment/getExDatas');
-            await this.$store.dispatch('payment/getInDatas');
-
+        refresh() {
             for (var exData of this.$store.state.payment.exDatas) {
                 if (exData.ex_category_id) {
-                    await axios.get('/api/ex_categories/' + exData.ex_category_id)
-                    .then((res) => {
-                        exData.ex_category_name = res.data.ex_category_name;
-                        exData.ex_category_color = res.data.ex_category_color;
-                        this.exDatas.push(exData);
-                    });
+                    this.$store.dispatch('category/setExCateId', exData.ex_category_id);
+                    exData.ex_category_name = this.$store.getters['category/getExCateName'];
+                    exData.ex_category_color = this.$store.getters['category/getExCateColor'];
+                    this.exDatas.push(exData);
                 } else {
                     this.exDatas.push(exData);
                 }
             }
             for (var inData of this.$store.state.payment.inDatas) {
                 if (inData.in_category_id) {
-                    await axios.get('/api/in_categories/' + inData.in_category_id)
-                    .then((res) => {
-                        inData.in_category_name = res.data.in_category_name;
-                        inData.in_category_color = res.data.in_category_color;
-                        this.inDatas.push(inData);
-                    });
+                    this.$store.dispatch('category/setInCateId', inData.in_category_id);
+                    inData.in_category_name = this.$store.getters['category/getInCateName'];
+                    inData.in_category_color = this.$store.getters['category/getInCateColor'];
+                    this.inDatas.push(inData);
                 } else {
                     this.inDatas.push(inData);
                 }

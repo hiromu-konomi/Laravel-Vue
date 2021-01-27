@@ -47,6 +47,19 @@ export default {
                 { tab: 'カレンダー', link: {name: "Calendar"} },
             ],
         }
+    },
+
+    async created() {
+        await this.refresh();
+    },
+
+    methods: {
+        async refresh() {
+            await this.$store.dispatch('payment/getExDatas');
+            await this.$store.dispatch('payment/getInDatas');
+            await this.$store.dispatch('category/getExCateDatas');
+            await this.$store.dispatch('category/getInCateDatas');
+        }
     }
 }
 </script>

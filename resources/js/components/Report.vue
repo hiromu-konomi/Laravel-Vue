@@ -33,9 +33,6 @@ export default {
     components: {
         Chart,
     },
-    async created() {
-        await this.calculatePrice();
-    },
     data() {
         return {
             sumExpenditure: "",
@@ -43,11 +40,5 @@ export default {
             sumBalance: "",
         }
     },
-    methods: {
-        async calculatePrice() {
-            await this.$store.dispatch('payment/getExDatas');
-            await this.$store.dispatch('payment/getInDatas');
-        },
-    }
 }
 </script>

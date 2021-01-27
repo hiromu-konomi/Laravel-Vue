@@ -91,9 +91,6 @@
 
 <script>
     export default {
-        async created() {
-            await this.selectDatas();
-        },
         data: () => ({
             focus: '',
             type: 'month',
@@ -170,10 +167,6 @@
             // rnd (a, b) {
             //     return Math.floor((b - a + 1) * Math.random()) + a
             // },
-            async selectDatas() {
-                await this.$store.dispatch('payment/getExDatas');
-                await this.$store.dispatch('payment/getInDatas');
-            },
         },
     }
 </script>

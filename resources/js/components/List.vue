@@ -31,6 +31,9 @@
                 :items="exDatas"
                 hide-default-footer
             >
+                <template v-slot:[`item.expend_price`]="{ item }">
+                    <td>{{ item.expend_price | addComma }}円</td>
+                </template>
                 <template v-slot:[`item.ex_category_name`]="{ item }">
                     <v-chip
                         :color="item.ex_category_color"
@@ -54,6 +57,9 @@
                 :items="inDatas"
                 hide-default-footer
             >
+                <template v-slot:[`item.income_price`]="{ item }">
+                    <td>{{ item.income_price | addComma }}円</td>
+                </template>
                 <template v-slot:[`item.in_category_name`]="{ item }">
                     <v-chip
                         :color="item.in_category_color"
@@ -147,21 +153,27 @@ export default {
             this.inTable = true;
         },
 
-        deleteExItem(id) {
-            axios.delete('/api/expends/' + id).then(() => {
-                this.exDatas = [];
-                this.inDatas = [];
-                this.refresh();
-            });
+        async deleteExItem(id) {
+            await axios.delete('/api/expends/' + id);
+            await this.$store.dispatch('payment/getExDatas');
+            this.exDatas = [];
+            this.inDatas = [];
+            this.refresh();
         },
 
-        deleteInItem(id) {
-            axios.delete('/api/incomes/' + id).then(() => {
-                this.exDatas = [];
-                this.inDatas = [];
-                this.refresh();
-            });
+        async deleteInItem(id) {
+            await axios.delete('/api/incomes/' + id);
+            await this.$store.dispatch('payment/getInDatas');
+            this.exDatas = [];
+            this.inDatas = [];
+            this.refresh();
         },
+    },
+
+    filters: {
+        addComma(value) {
+            return Number(value).toLocaleString();
+        }
     }
 }
 </script>

@@ -30,10 +30,10 @@ const getters = {
         const events = [];
         for(let ex of state.exDatas){
             const exEvent = {
-                name: '支出：' + ex.expend_price + '円',
+                name: '支出：' + Number(ex.expend_price).toLocaleString() + '円',
                 start: moment(ex.expend_date).toDate(),
                 end: moment(ex.expend_date).toDate(),
-                color: 'red',
+                color: 'blue',
                 timed: false,
             }
             console.log("exEvent = " + exEvent);
@@ -41,10 +41,10 @@ const getters = {
         }
         for (let inc of state.inDatas) {
             const inEvent = {
-                name: '収入：' + inc.income_price + '円',
+                name: '収入：' + Number(inc.income_price).toLocaleString() + '円',
                 start: moment(inc.income_date).toDate(),
                 end: moment(inc.income_date).toDate(),
-                color: 'blue',
+                color: 'red',
                 timed: false,
             }
             console.log("inEvent = " + inEvent);

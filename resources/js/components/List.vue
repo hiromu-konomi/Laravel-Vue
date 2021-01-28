@@ -28,7 +28,7 @@
             <v-data-table
                 v-if="exTable"
                 :headers="exHeader"
-                :items="exDatas"
+                :items="$store.state.payment.exDatas"
                 hide-default-footer
             >
                 <template v-slot:[`item.expend_price`]="{ item }">
@@ -54,7 +54,7 @@
             <v-data-table
                 v-if="inTable"
                 :headers="inHeader"
-                :items="inDatas"
+                :items="$store.state.payment.inDatas"
                 hide-default-footer
             >
                 <template v-slot:[`item.income_price`]="{ item }">
@@ -83,10 +83,6 @@
 <script>
 export default {
     name: "List",
-
-    created() {
-        this.refresh();
-    },
 
     data() {
         return {
@@ -120,29 +116,6 @@ export default {
     },
 
     methods: {
-        refresh() {
-            for (var exData of this.$store.state.payment.exDatas) {
-                if (exData.ex_category_id) {
-                    this.$store.dispatch('category/setExCateId', exData.ex_category_id);
-                    exData.ex_category_name = this.$store.getters['category/getExCateName'];
-                    exData.ex_category_color = this.$store.getters['category/getExCateColor'];
-                    this.exDatas.push(exData);
-                } else {
-                    this.exDatas.push(exData);
-                }
-            }
-            for (var inData of this.$store.state.payment.inDatas) {
-                if (inData.in_category_id) {
-                    this.$store.dispatch('category/setInCateId', inData.in_category_id);
-                    inData.in_category_name = this.$store.getters['category/getInCateName'];
-                    inData.in_category_color = this.$store.getters['category/getInCateColor'];
-                    this.inDatas.push(inData);
-                } else {
-                    this.inDatas.push(inData);
-                }
-            }
-        },
-
         showExTable() {
             this.exTable = true;
             this.inTable = false;
@@ -156,17 +129,37 @@ export default {
         async deleteExItem(id) {
             await axios.delete('/api/expends/' + id);
             await this.$store.dispatch('payment/getExDatas');
-            this.exDatas = [];
-            this.inDatas = [];
-            this.refresh();
+            // 支出データにカテゴリーの名前と色を追加し直す処理
+            let exDatas = [];
+            for (var exData of this.$store.state.payment.exDatas) {
+                if (exData.ex_category_id) {
+                    this.$store.dispatch('category/setExCateId', exData.ex_category_id);
+                    exData.ex_category_name = this.$store.getters['category/getExCateName'];
+                    exData.ex_category_color = this.$store.getters['category/getExCateColor'];
+                    exDatas.push(exData);
+                } else {
+                    exDatas.push(exData);
+                }
+            }
+            this.$store.dispatch('payment/setExDatasWithCateDatas', exDatas);
         },
 
         async deleteInItem(id) {
             await axios.delete('/api/incomes/' + id);
             await this.$store.dispatch('payment/getInDatas');
-            this.exDatas = [];
-            this.inDatas = [];
-            this.refresh();
+            // 収入データにカテゴリーの名前と色を追加し直す処理
+            let inDatas = [];
+            for (var inData of this.$store.state.payment.inDatas) {
+                if (inData.in_category_id) {
+                    this.$store.dispatch('category/setInCateId', inData.in_category_id);
+                    inData.in_category_name = this.$store.getters['category/getInCateName'];
+                    inData.in_category_color = this.$store.getters['category/getInCateColor'];
+                    inDatas.push(inData);
+                } else {
+                    inDatas.push(inData);
+                }
+            }
+            this.$store.dispatch('payment/setInDatasWithCateDatas', inDatas);
         },
     },
 

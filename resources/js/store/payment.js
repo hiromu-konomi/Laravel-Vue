@@ -36,7 +36,6 @@ const getters = {
                 color: 'blue',
                 timed: false,
             }
-            console.log("exEvent = " + exEvent);
             events.push(exEvent);
         }
         for (let inc of state.inDatas) {
@@ -47,11 +46,8 @@ const getters = {
                 color: 'red',
                 timed: false,
             }
-            console.log("inEvent = " + inEvent);
             events.push(inEvent);
         }
-        console.log("events = ");
-        console.log(events);
         return events;
     }
 }

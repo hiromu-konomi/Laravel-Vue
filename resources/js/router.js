@@ -5,8 +5,8 @@ import Form from "./components/Form.vue";
 import List from "./components/List.vue";
 import Report from "./components/Report.vue";
 import Calendar from "./components/Calendar.vue";
-import Register from "./components/RegisterComponent.vue";
-import login from "./components/LoginComponent.vue";
+import Register from "./components/Register.vue";
+import Login from "./components/Login.vue";
 // import about from "./components/about.vue";
 
 Vue.use(VueRouter);
@@ -42,7 +42,7 @@ const router = new VueRouter({
                 {
                     path: "/login",
                     name: "login",
-                    component: login,
+                    component: Login,
                     // meta: { guestOnly: true }
                 },
 //         {

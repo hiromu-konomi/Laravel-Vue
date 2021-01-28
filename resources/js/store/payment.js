@@ -60,6 +60,14 @@ const mutations = {
     getInDatas(state, resData) {
         state.inDatas = resData;
     },
+
+    setExDatasWithCateDatas(state, exDatas) {
+        state.exDatas = exDatas;
+    },
+
+    setInDatasWithCateDatas(state, inDatas) {
+        state.inDatas = inDatas;
+    },
 }
 
 const actions = {
@@ -73,6 +81,14 @@ const actions = {
         await axios.get('/api/incomes').then((res) => {
             commit("getInDatas", res.data);
         });
+    },
+
+    setExDatasWithCateDatas({commit}, exDatas) {
+        commit("setExDatasWithCateDatas", exDatas);
+    },
+
+    setInDatasWithCateDatas({commit}, inDatas) {
+        commit("setInDatasWithCateDatas", inDatas);
     },
 }
 

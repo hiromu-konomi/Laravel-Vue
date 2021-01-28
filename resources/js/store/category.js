@@ -86,6 +86,8 @@ const actions = {
         }).catch(error => console.log(error));
     },
 
+    registerExCateDatas({commit}, userId) {},
+
     setExCateId({commit}, id) {
         commit("setExCateId", id);
     },

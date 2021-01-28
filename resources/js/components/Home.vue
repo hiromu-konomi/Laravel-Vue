@@ -59,6 +59,30 @@ export default {
             await this.$store.dispatch('payment/getInDatas');
             await this.$store.dispatch('category/getExCateDatas');
             await this.$store.dispatch('category/getInCateDatas');
+            let exDatas = [];
+            let inDatas = [];
+            for (var exData of this.$store.state.payment.exDatas) {
+                if (exData.ex_category_id) {
+                    this.$store.dispatch('category/setExCateId', exData.ex_category_id);
+                    exData.ex_category_name = this.$store.getters['category/getExCateName'];
+                    exData.ex_category_color = this.$store.getters['category/getExCateColor'];
+                    exDatas.push(exData);
+                } else {
+                    exDatas.push(exData);
+                }
+            }
+            for (var inData of this.$store.state.payment.inDatas) {
+                if (inData.in_category_id) {
+                    this.$store.dispatch('category/setInCateId', inData.in_category_id);
+                    inData.in_category_name = this.$store.getters['category/getInCateName'];
+                    inData.in_category_color = this.$store.getters['category/getInCateColor'];
+                    inDatas.push(inData);
+                } else {
+                    inDatas.push(inData);
+                }
+            }
+            this.$store.dispatch('payment/setExDatasWithCateDatas', exDatas);
+            this.$store.dispatch('payment/setInDatasWithCateDatas', inDatas);
         }
     }
 }

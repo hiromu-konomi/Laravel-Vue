@@ -57,6 +57,7 @@ export default {
         async refresh() {
             await this.$store.dispatch('payment/getExDatas');
             await this.$store.dispatch('payment/getInDatas');
+            await this.$store.dispatch('payment/getExCateDatas');
             await this.$store.dispatch('category/getExCateDatas');
             await this.$store.dispatch('category/getInCateDatas');
             let exDatas = [];

@@ -60,7 +60,7 @@
                                             outlined
                                             prepend-icon="mdi-lock"
                                             label="パスワード"
-                                            v-model="registerForm.passwords"
+                                            v-model="registerForm.password"
                                             :rules="[passwordRules, passwordLimit]"
                                             @click:append="show = !show"
                                         ></v-text-field>
@@ -74,7 +74,7 @@
                                             outlined
                                             prepend-icon="mdi-lock"
                                             label="確認用パスワード"
-                                            v-model="registerForm.confrimPasswords"
+                                            v-model="registerForm.password_confirmation"
                                             :rules="[passwordRules, passwordLimit]"
                                             @click:append="show = !show"
                                         ></v-text-field>
@@ -107,7 +107,7 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                confirmPassword: ''
+                password_confirmation: ''
             },
             emailbody: '',
             domain: { address: 'rakus-partners.co.jp' },
@@ -136,11 +136,14 @@ export default {
     methods: {
         register() {
             if (this.$refs.form.validate()) {
-                this.registerForm.email = this.emailbody + this.domain;
-
+                this.registerForm.email = this.emailbody + '@' + this.domain.address;
+                console.log("email = " + this.registerForm.email);
+                console.log("password = " + this.registerForm.password);
+                console.log("password_confirmation = " + this.registerForm.password_confirmation);
                 this.$store.dispatch("auth/register", this.registerForm).then(() => {
-                    this.$router.push({ name: "Form" });
+                    // this.$router.push({ name: "Form" });
                 });
+                console.log("token = " + this.$store.state.auth.token);
             }
         }
     },

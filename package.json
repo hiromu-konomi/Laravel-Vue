@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "apexcharts": "^3.23.1",
         "mdi": "^2.2.43",
         "moment": "^2.29.1",
         "vue-apexcharts": "^1.6.0",

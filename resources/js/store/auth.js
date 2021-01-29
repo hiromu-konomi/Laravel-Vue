@@ -19,8 +19,9 @@ const mutations = {
 }
 
 const actions = {
-    register({commit}, data) {
-        axios.post('api/register', data).then((result) => {
+    register({commit}, request) {
+        console.log("request = " + request);
+        axios.post('api/register', request).then((result) => {
             commit("setUser", result.data.user);
             commit("setToken", result.data.token);
         }).catch(error => {

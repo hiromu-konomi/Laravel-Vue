@@ -4,13 +4,11 @@
             <v-card>
                 <v-card-title>
                     <v-flex class="text-center">
-                        <span class="font-weight-bold">ユーザー登録</span>
+                        <span class="font-weight-bold">ユーザー登録フォーム</span>
                     </v-flex>
                 </v-card-title>
 
                 <v-divider></v-divider>
-
-                <v-spacer></v-spacer>
 
                 <v-card-text class="mgt">
                     <v-layout row wrap justify-center>
@@ -82,6 +80,7 @@
                                 </v-row>
                             </v-form>
                         </v-flex>
+                        <router-link :to="{ name: 'Login' }" class="mgb">既にアカウントをお持ちの方はこちら</router-link>
                     </v-layout>
                 </v-card-text>
 
@@ -103,6 +102,7 @@
 export default {
     data(){
         return {
+            // ユーザー登録フォームに入力された値
             registerForm: {
                 name: '',
                 email: '',
@@ -117,13 +117,15 @@ export default {
                 { address: 'gmail.com' },
                 { address: 'yahoo.co.jp' },
             ],
-            show: false,
+            // 入力値チェック
             emailRules: (value) => !!value || "メールアドレスを入力してください",
             passwordRules: (value) => !!value || "パスワードを入力してください",
             passwordLimit: (value) =>
                 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,15}$/.test(value) ||
                 "8文字以上15文字以下で入力してください。ただし半角英小文字大文字数字(特殊記号以外)を含んでください",
             check: (value) => !!value || "選択してください",
+            // 入力されたパスワードの表示/非表示
+            show: false,
         }
     },
     computed: {
@@ -153,5 +155,8 @@ export default {
 <style scoped>
 .mgt {
     margin-top: 5%;
+}
+.mgb {
+    margin-bottom: 5%;
 }
 </style>

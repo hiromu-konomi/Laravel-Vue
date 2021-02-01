@@ -41,7 +41,7 @@ const router = new VueRouter({
                 },
                 {
                     path: "/login",
-                    name: "login",
+                    name: "Login",
                     component: Login,
                     // meta: { guestOnly: true }
                 },

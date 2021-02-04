@@ -20,8 +20,8 @@ class RegisterController extends Controller
         // ユーザーの作成とトークンの作成します
         $data = DB::transaction(function () use ($request) {
             $user = $this->create($request->all());
-            $token = $user->createToken('token-name')->plainTextToken;
-            return json_encode(['token' => $token, 'user' => $user]);
+            // $token = $user->createToken('token-name')->plainTextToken;
+            // return json_encode(['token' => $token, 'user' => $user]);
         });
         // userとtokenのjsonを返却
         return response($data);

@@ -43,37 +43,37 @@ const router = new VueRouter({
                     path: "/login",
                     name: "Login",
                     component: Login,
-                    // meta: { guestOnly: true }
+                    meta: { guestOnly: true }
                 },
-//         {
-//             path: "/about",
-//             name: "about",
-//             component: about,
-//             meta: { authOnly: true }
-//         }
+                // {
+                //     path: "/about",
+                //     name: "about",
+                //     component: about,
+                //     meta: { authOnly: true }
+                // }
     ]
 });
 
-// function isLoggedIn() {
-//     return localStorage.getItem("auth");
-// }
+function isLoggedIn() {
+    return localStorage.getItem("auth");
+}
 
-// router.beforeEach((to, from, next) => {
-//     if (to.matched.some(record => record.meta.authOnly)) {
-//         if (!isLoggedIn()) {
-//             next("/login");
-//         } else {
-//             next();
-//         }
-//     } else if (to.matched.some(record => record.meta.guestOnly)) {
-//         if (isLoggedIn()) {
-//             next("/about");
-//         } else {
-//             next();
-//         }
-//     } else {
-//         next();
-//     }
-// });
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.authOnly)) {
+        if (!isLoggedIn()) {
+            next("/login");
+        } else {
+            next();
+        }
+    } else if (to.matched.some(record => record.meta.guestOnly)) {
+        if (isLoggedIn()) {
+            next("/home");
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
 
 export default router;

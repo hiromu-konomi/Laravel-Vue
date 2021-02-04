@@ -19,7 +19,7 @@
                                         type="email"
                                         prepend-icon="mdi-email"
                                         label="メールアドレス"
-                                        v-model="loginForm.email"
+                                        v-model="email"
                                         outlined
                                         :rules="[emailRules]"
                                     ></v-text-field>
@@ -29,7 +29,7 @@
                                         outlined
                                         prepend-icon="mdi-lock"
                                         label="パスワード"
-                                        v-model="loginForm.password"
+                                        v-model="password"
                                         :rules="[passwordRules, passwordLimit]"
                                         @click:append="show = !show"
                                     ></v-text-field>
@@ -59,10 +59,8 @@ export default {
     data() {
         return {
             // ログインフォームに入力された値
-            loginForm: {
                 email: '',
                 password: '',
-            },
             // 入力値チェック
             emailRules: (value) => !!value || "メールアドレスを入力してください",
             passwordRules: (value) => !!value || "パスワードを入力してください",
@@ -82,7 +80,21 @@ export default {
     },
     methods: {
         login() {
-
+            axios.get("/sanctum/csrf-cookie").then(response => {
+                axios
+                    .post("/api/login", {
+                        email: this.email,
+                        password: this.password
+                    })
+                    .then(response => {
+                        console.log(response);
+                        localStorage.setItem("auth", "true");
+                        this.$router.push("/home");
+                    })
+                    .catch(error => {
+                        this.errors = error.response.data.errors;
+                    });
+            });
         }
     }
 }

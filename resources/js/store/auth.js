@@ -27,6 +27,19 @@ const actions = {
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });
+    },
+
+    logout({commit}) {
+        axios.post('api/logout', null, {
+            headers: {
+                Authorization: `Bearer ${state.token}`,
+            }
+        }).then((result) => {
+            commit("setUser", null);
+            commit("setToken", null);
+        }).catch(error => {
+            console.log(`Error! HTTP Status: ${error}`);
+        })
     }
 }
 

@@ -157,10 +157,20 @@ export default {
             await this.$store.dispatch('category/getExCateDatas');
         },
 
-        deleteExCategory(id) {
-            axios.delete('/api/ex_categories/' + id).then(() => {
-                this.refresh();
-            });
+        async deleteExCategory(id) {
+            let count = 0;
+            for (var exData of this.$store.state.payment.exDatas) {
+                if (count === 0) {
+                    if (id === exData.ex_category_id) {
+                        alert("このカテゴリーを使用した支出履歴が存在します。\nこのカテゴリーは削除できません。");
+                        count++;
+                    }
+                }
+            }
+            if (count === 0){
+                await axios.delete('/api/ex_categories/' + id);
+                await this.refresh();
+            }
         },
 
         changeColor(color) {
@@ -169,10 +179,9 @@ export default {
 
         async addExCategory() {
             if (this.$refs.test_form.validate()) {
-                axios.post('/api/ex_categories', this.exCateData).then(() => {
-                    this.$refs.test_form.reset();
-                    this.refresh();
-                });
+                await axios.post('/api/ex_categories', this.exCateData);
+                this.$refs.test_form.reset();
+                await this.refresh();
             }
         }
     }

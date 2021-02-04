@@ -69,27 +69,11 @@ const getters = {
     },
 
     getChartOptions(state) {
-        const expendCategoryIdDatas = [];
         const exCategoryName = [];
-        for(var ex of state.exDatas) {
-            expendCategoryIdDatas.push(ex.ex_category_id);
-        }
-        const categoryIdAfterSet = Array.from(new Set(expendCategoryIdDatas));
-
-        for(var cateId of categoryIdAfterSet) {
-            for(var exCate of state.exCateDatas) {
-
-                if(cateId === exCate.id) {
-                    exCategoryName.push(exCate.ex_category_name);
-                }else{
-                    continue;
-                }
-            }
-        }
         const exBackgroundColor = [];
         const exBorderColor = [];
-
         for(var exCate of state.exCateDatas) {
+            exCategoryName.push(exCate.ex_category_name);
 
             if(exCate.ex_category_color === 'red'){
                 exBackgroundColor.push('rgba(255, 0, 0, 0.6)');

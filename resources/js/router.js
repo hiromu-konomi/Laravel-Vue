@@ -18,21 +18,25 @@ const router = new VueRouter({
                     path: "/",
                     name: "Form",
                     component: Form,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/list",
                     name: "List",
                     component: List,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/report",
                     name: "Report",
                     component: Report,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/calendar",
                     name: "Calendar",
                     component: Calendar,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/register",
@@ -67,7 +71,7 @@ router.beforeEach((to, from, next) => {
         }
     } else if (to.matched.some(record => record.meta.guestOnly)) {
         if (isLoggedIn()) {
-            next("/home");
+            next("/");
         } else {
             next();
         }

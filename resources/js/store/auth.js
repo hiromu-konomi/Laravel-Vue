@@ -1,34 +1,41 @@
-import axios from "axios"
-import { result } from "lodash"
-
 const state = {
-    user: null,
-    token: window.localStorage.getItem('token'),
-    message: null
+    message: null,
+    user: {
+        id: undefined,
+        name: undefined
+    },
+    token: window.localStorage.getItem("auth")
 }
 
-const getters = {}
+const getters = {
+    userName(state) {
+        const userName = state.user.name;
+        console.log("userName = " + userName);
+        return userName;
+    }
+}
 
 const mutations = {
     setUser(state, user) {
-        state.user = user;
+        state.user.id = user.id;
+        state.user.name = user.name;
     },
 
     setMessage(state, message) {
         state.message = message;
     },
 
-    setToken(state, token) {
-        window.localStorage.setItem('token', token);
+    removeUser(state) {
+        state.user.id = undefined;
+        state.user.name = undefined;
     }
 }
 
 const actions = {
     register({commit}, request) {
-        console.log("request = " + request);
         axios.post('api/register', request).then((result) => {
             commit("setUser", result.data.user);
-            commit("setToken", result.data.token);
+            localStorage.setItem("auth", "true");
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });

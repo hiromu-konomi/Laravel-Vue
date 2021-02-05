@@ -158,9 +158,20 @@ export default {
         },
 
         deleteInCategory(id) {
-            axios.delete('/api/in_categories/' + id).then(() => {
-                this.refresh();
-            });
+            let count = 0;
+            for (var inData of this.$store.state.payment.inDatas) {
+                if (count === 0) {
+                    if (id === inData.in_category_id) {
+                        alert("このカテゴリーを使用した収入履歴が存在します。\nこのカテゴリーは削除できません。");
+                        count++;
+                    }
+                }
+            }
+            if (count === 0){
+                axios.delete('/api/in_categories/' + id).then(() => {
+                    this.refresh();
+                });
+            }
         },
 
         changeColor(color) {

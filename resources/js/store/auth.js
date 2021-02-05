@@ -1,4 +1,5 @@
 const state = {
+    message: null,
     user: {
         id: undefined,
         name: undefined
@@ -20,6 +21,10 @@ const mutations = {
         state.user.name = user.name;
     },
 
+    setMessage(state, message) {
+        state.message = message;
+    },
+
     removeUser(state) {
         state.user.id = undefined;
         state.user.name = undefined;
@@ -34,6 +39,21 @@ const actions = {
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });
+    },
+
+    login({commit}, request) {
+            axios.post('/api/login', request)
+                .then((result) => {
+                    console.log(result);
+                    commit("setUser", result.data.user);
+                    commit("setMessage", result.data.message);
+                    localStorage.setItem("auth", "true");
+                    console.log("user = " + result.data.user + " + " + this.state.user);
+                    console.log("message = " + result.data.message + " + " + this.state.message);
+                })
+                .catch(error => {
+                    this.errors = error.response.data.errors;
+                });
     },
 
     logout({commit}) {

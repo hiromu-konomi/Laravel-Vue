@@ -5,23 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        $keyword_email = $request -> email;
 
-        if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Login successful'], 200);
+        $query = User::query();
+        $users = $query -> where('email', '=', $keyword_email) -> get();
+
+        if($users != null){
+            return $users;
+        }else {
+            $message = "メールアドレスまたはパスワードが違います";
+            return $message;
         }
 
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect'],
-        ]);
+        // if (Auth::attempt($users)) {
+        //     return response()->json(['message' => 'Login successful'], 200);
+        // }
+
+        // throw ValidationException::withMessages([
+        //     'email' => ['The provided credentials are incorrect'],
+        // ]);
     }
 
     public function logout()

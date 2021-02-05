@@ -14,12 +14,13 @@
                     <v-card-text class="mgt">
                         <v-layout row wrap justify-center>
                             <v-flex xs9>
+                                <v-card>{{ this.$store.state.auth.message }}</v-card>
                                 <v-form>
                                     <v-text-field
                                         type="email"
                                         prepend-icon="mdi-email"
                                         label="メールアドレス"
-                                        v-model="email"
+                                        v-model="loginForm.email"
                                         outlined
                                         :rules="[emailRules]"
                                     ></v-text-field>
@@ -29,7 +30,7 @@
                                         outlined
                                         prepend-icon="mdi-lock"
                                         label="パスワード"
-                                        v-model="password"
+                                        v-model="loginForm.password"
                                         :rules="[passwordRules, passwordLimit]"
                                         @click:append="show = !show"
                                     ></v-text-field>
@@ -59,8 +60,10 @@ export default {
     data() {
         return {
             // ログインフォームに入力された値
+            loginForm: {
                 email: '',
                 password: '',
+            },
             // 入力値チェック
             emailRules: (value) => !!value || "メールアドレスを入力してください",
             passwordRules: (value) => !!value || "パスワードを入力してください",
@@ -81,19 +84,14 @@ export default {
     methods: {
         login() {
             axios.get("/sanctum/csrf-cookie").then(response => {
-                axios
-                    .post("/api/login", {
-                        email: this.email,
-                        password: this.password
+                this.$store.dispatch("auth/login", this.loginForm)
+                    .then(() => {
+                        if(this.$store.state.auth.message != null){
+                            this.$router.push({name: "Login"});
+                        }else{
+                            this.$router.push({name: "Form"});
+                        }
                     })
-                    .then(response => {
-                        console.log(response);
-                        localStorage.setItem("auth", "true");
-                        this.$router.push("/home");
-                    })
-                    .catch(error => {
-                        this.errors = error.response.data.errors;
-                    });
             });
         }
     }

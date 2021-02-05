@@ -10,6 +10,7 @@
             </v-toolbar-title>
 
             <v-tabs
+                v-if="$store.state.auth.token"
                 v-model="tab"
             >
                 <v-tab
@@ -20,6 +21,19 @@
                     {{ item.tab }}
                 </v-tab>
             </v-tabs>
+
+            <v-spacer></v-spacer>
+
+            <span v-if="$store.state.auth.token">{{ $store.state.auth.user.name }}さん</span>
+
+            <v-btn
+                color="pink accent-3"
+                dark
+                depressed
+                @click="logout"
+            >
+                <span class="font-weight-bold">ログアウト</span>
+            </v-btn>
         </v-app-bar>
 
         <v-main :style="{ background: $vuetify.theme.themes.light.background }">
@@ -84,6 +98,10 @@ export default {
             }
             this.$store.dispatch('payment/setExDatasWithCateDatas', exDatas);
             this.$store.dispatch('payment/setInDatasWithCateDatas', inDatas);
+        },
+
+        logout() {
+            this.$store.dispatch('auth/logout');
         }
     }
 }

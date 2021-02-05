@@ -20,7 +20,7 @@ class RegisterController extends Controller
         // ユーザーの作成をします
         $data = DB::transaction(function () use ($request) {
             $user = $this->create($request->all());
-            return $user;
+            return json_encode(['user' => $user]);
         });
         // userのjsonを返却
         return $data;

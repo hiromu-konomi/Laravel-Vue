@@ -59,7 +59,7 @@
                                             outlined
                                             prepend-icon="mdi-lock"
                                             label="確認用パスワード"
-                                            v-model="password_confirmation"
+                                            v-model="registerForm.password_confirmation"
                                             :rules="[passwordRules, passwordLimit]"
                                             @click:append="show = !show"
                                         ></v-text-field>
@@ -94,8 +94,8 @@ export default {
                 name: '',
                 email: '',
                 password: '',
+                password_confirmation: '',
             },
-            password_confirmation: '',
             // 入力値チェック
             emailRules: (value) => !!value || "メールアドレスを入力してください",
             passwordRules: (value) => !!value || "パスワードを入力してください",
@@ -118,16 +118,12 @@ export default {
     methods: {
         register() {
             if (this.$refs.form.validate()) {
-                if(this.password_confirmation != this.registerForm.password){
+                if(this.registerForm.password_confirmation != this.registerForm.password){
                     alert("パスワードと確認用パスワードが一致しません");
                 }
-                console.log("email = " + this.registerForm.email);
-                console.log("password = " + this.registerForm.password);
-                console.log("password_confirmation = " + this.password_confirmation);
                 this.$store.dispatch("auth/register", this.registerForm).then(() => {
-                    // this.$router.push({ name: "Form" });
+                    this.$router.push({ name: "Form" });
                 });
-                console.log("token = " + this.$store.state.auth.token);
             }
         }
     },

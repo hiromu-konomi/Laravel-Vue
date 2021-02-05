@@ -1,9 +1,5 @@
-import axios from "axios"
-import { result } from "lodash"
-
 const state = {
-    user: null,
-    token: window.localStorage.getItem('token')
+    user: {},
 }
 
 const getters = {}
@@ -12,10 +8,6 @@ const mutations = {
     setUser(state, user) {
         state.user = user;
     },
-
-    setToken(state, token) {
-        window.localStorage.setItem('token', token);
-    }
 }
 
 const actions = {
@@ -23,7 +15,7 @@ const actions = {
         console.log("request = " + request);
         axios.post('api/register', request).then((result) => {
             commit("setUser", result.data.user);
-            commit("setToken", result.data.token);
+            localStorage.setItem("auth", "true");
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });

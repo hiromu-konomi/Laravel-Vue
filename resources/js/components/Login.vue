@@ -86,7 +86,7 @@ export default {
             axios.get("/sanctum/csrf-cookie").then(response => {
                 this.$store.dispatch("auth/login", this.loginForm)
                     .then(() => {
-                        if(this.$store.state.auth.message != null){
+                        if(this.$store.state.auth.message){
                             this.$router.push({name: "Login"});
                         }else{
                             this.$router.push({name: "Form"});

@@ -30,7 +30,6 @@ const actions = {
     register({commit}, request) {
         axios.post('api/register', request).then((result) => {
             commit("setUser", result.data.user);
-            localStorage.setItem("auth", "true");
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });
@@ -39,7 +38,6 @@ const actions = {
     logout({commit}) {
         axios.post('api/logout').then(() => {
             commit("removeUser");
-            localStorage.removeItem("auth")
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         })

@@ -42,17 +42,16 @@ const actions = {
     },
 
     login({commit}, request) {
-            axios.post('/api/login', request)
+            axios.post('api/login', request)
                 .then((result) => {
                     console.log(result);
-                    commit("setUser", result.data.user);
-                    commit("setMessage", result.data.message);
+                    commit("setUser", result.data.user[0]);
+                    // commit("setMessage", result.data.message);
                     localStorage.setItem("auth", "true");
-                    console.log("user = " + result.data.user + " + " + this.state.user);
-                    console.log("message = " + result.data.message + " + " + this.state.message);
+                    // console.log("message = " + result.data.message + " + " + this.state.message);
                 })
                 .catch(error => {
-                    this.errors = error.response.data.errors;
+                    console.log(`Error! HTTP Status: ${error}`);
                 });
     },
 

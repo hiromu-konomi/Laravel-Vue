@@ -7,7 +7,6 @@ import Report from "./components/Report.vue";
 import Calendar from "./components/Calendar.vue";
 import Register from "./components/Register.vue";
 import Login from "./components/Login.vue";
-// import about from "./components/about.vue";
 
 Vue.use(VueRouter);
 
@@ -42,6 +41,7 @@ const router = new VueRouter({
                     path: "/register",
                     name: "Register",
                     component: Register,
+                    meta: { guestOnly: true }
                 },
                 {
                     path: "/login",
@@ -49,12 +49,6 @@ const router = new VueRouter({
                     component: Login,
                     meta: { guestOnly: true }
                 },
-                // {
-                //     path: "/about",
-                //     name: "about",
-                //     component: about,
-                //     meta: { authOnly: true }
-                // }
     ]
 });
 

@@ -120,10 +120,13 @@ export default {
             if (this.$refs.form.validate()) {
                 if(this.registerForm.password_confirmation != this.registerForm.password){
                     alert("パスワードと確認用パスワードが一致しません");
+                    this.registerForm.password = '';
+                    this.registerForm.password_confirmation = '';
+                } else {
+                    this.$store.dispatch("auth/register", this.registerForm);
+                    localStorage.setItem("auth", "true");
+                    this.$router.push("/");
                 }
-                this.$store.dispatch("auth/register", this.registerForm).then(() => {
-                    this.$router.push({ name: "Form" });
-                });
             }
         }
     },

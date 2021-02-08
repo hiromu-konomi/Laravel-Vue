@@ -46,7 +46,6 @@ const actions = {
                     console.log(result);
                     commit("setUser", result.data.user[0]);
                     // commit("setMessage", result.data.message);
-                    localStorage.setItem("auth", "true");
                     // console.log("message = " + result.data.message + " + " + this.state.message);
                 })
                 .catch(error => {

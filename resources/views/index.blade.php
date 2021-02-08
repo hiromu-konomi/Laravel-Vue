@@ -9,7 +9,7 @@
 
 <body>
     <div id="app">
-        <home></home>
+        <app></app>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ mix('js/app.js') }}" defer></script>

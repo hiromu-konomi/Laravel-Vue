@@ -6,22 +6,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use Illuminate\Support\Facades\{DB};
 
 class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $keyword_email = $request -> email;
 
-        $query = User::query();
-        $users = $query -> where('email', '=', $keyword_email) -> get();
+        $data = DB::transaction(function () use ($request) {
+            $keyword_email = $request -> input('email');
 
-        if($users != null){
-            return $users;
-        }else {
-            $message = "メールアドレスまたはパスワードが違います";
-            return $message;
-        }
+            $query = User::query();
+            $user = $query -> where('email', $keyword_email) -> get();
+
+            // if($users != null){
+                return json_encode(['user' => $user]);
+            // }else {
+                // $message = "メールアドレスまたはパスワードが違います";
+                // return $message;
+            // }
+
+        });
+        return $data;
 
         // if (Auth::attempt($users)) {
         //     return response()->json(['message' => 'Login successful'], 200);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\Api\RegisterController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ExpendsController;
 use App\Http\Controllers\IncomesController;
 use App\Http\Controllers\ExCategoriesController;
@@ -37,10 +38,10 @@ Route::post('/in_categories', [InCategoriesController::class, 'store']);
 Route::get('/in_categories/{inCategory}', [InCategoriesController::class, 'show']);
 Route::delete('/in_categories/{inCategory}', [InCategoriesController::class, 'destroy']);
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::post('/register', [RegisterController::class, 'register']);
-// Route::post('/login', 'LoginController@login');
-// Route::post('/logout', 'LoginController@logout');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout']);

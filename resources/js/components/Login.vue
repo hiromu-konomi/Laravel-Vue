@@ -14,6 +14,7 @@
                     <v-card-text class="mgt">
                         <v-layout row wrap justify-center>
                             <v-flex xs9>
+                                <v-card>{{ this.$store.state.auth.message }}</v-card>
                                 <v-form>
                                     <v-text-field
                                         type="email"
@@ -82,7 +83,16 @@ export default {
     },
     methods: {
         login() {
-
+            axios.get("/sanctum/csrf-cookie").then(response => {
+                this.$store.dispatch("auth/login", this.loginForm)
+                    .then(() => {
+                        if(this.$store.state.auth.message){
+                            this.$router.push({name: "Login"});
+                        }else{
+                            this.$router.push({name: "Form"});
+                        }
+                    })
+            });
         }
     }
 }

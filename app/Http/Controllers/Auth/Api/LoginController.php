@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Auth\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-class LoginController extends Controller {
 
-    public function login(Request $request) {
-
+class LoginController extends Controller
+{
+    public function login(Request $request)
+    {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
@@ -27,6 +27,5 @@ class LoginController extends Controller {
     public function logout()
     {
         Auth::logout();
-        return response()->json(['message' => 'Logged out'], 200);
     }
 }

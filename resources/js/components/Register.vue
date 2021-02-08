@@ -30,24 +30,11 @@
                                             type="email"
                                             prepend-icon="mdi-email"
                                             label="メールアドレス"
-                                            v-model="emailbody"
+                                            v-model="registerForm.email"
                                             :rules="[emailRules]"
                                             outlined
                                         >
-                                            <template v-slot:append-outer> @ </template>
                                         </v-text-field>
-                                    </v-col>
-                                    <v-col>
-                                        <v-select
-                                            v-model="domain"
-                                            :hint="`@メールの形式はこちらから選んでください`"
-                                            :items="items"
-                                            item-text="address"
-                                            label="domain"
-                                            persistent-hint
-                                            return-object
-                                            single-line
-                                        ></v-select>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -107,22 +94,15 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                password_confirmation: ''
+                password_confirmation: '',
             },
-            emailbody: '',
-            domain: { address: 'rakus-partners.co.jp' },
-            items: [
-                { address: 'rakus-partners.co.jp' },
-                { address: 'rakus.co.jp' },
-                { address: 'gmail.com' },
-                { address: 'yahoo.co.jp' },
-            ],
             // 入力値チェック
             emailRules: (value) => !!value || "メールアドレスを入力してください",
             passwordRules: (value) => !!value || "パスワードを入力してください",
             passwordLimit: (value) =>
                 /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,15}$/.test(value) ||
                 "8文字以上15文字以下で入力してください。ただし半角英小文字大文字数字(特殊記号以外)を含んでください",
+            // passwordCheck: (value) => value !== this.registerForm.password || "パスワードと一致しません",
             check: (value) => !!value || "選択してください",
             // 入力されたパスワードの表示/非表示
             show: false,
@@ -138,14 +118,15 @@ export default {
     methods: {
         register() {
             if (this.$refs.form.validate()) {
-                this.registerForm.email = this.emailbody + '@' + this.domain.address;
-                console.log("email = " + this.registerForm.email);
-                console.log("password = " + this.registerForm.password);
-                console.log("password_confirmation = " + this.registerForm.password_confirmation);
-                this.$store.dispatch("auth/register", this.registerForm).then(() => {
-                    // this.$router.push({ name: "Form" });
-                });
-                console.log("token = " + this.$store.state.auth.token);
+                if(this.registerForm.password_confirmation != this.registerForm.password){
+                    alert("パスワードと確認用パスワードが一致しません");
+                    this.registerForm.password = '';
+                    this.registerForm.password_confirmation = '';
+                } else {
+                    this.$store.dispatch("auth/register", this.registerForm);
+                    localStorage.setItem("auth", "true");
+                    this.$router.push("/");
+                }
             }
         }
     },

@@ -7,7 +7,6 @@ import Report from "./components/Report.vue";
 import Calendar from "./components/Calendar.vue";
 import Register from "./components/Register.vue";
 import Login from "./components/Login.vue";
-// import about from "./components/about.vue";
 
 Vue.use(VueRouter);
 
@@ -18,45 +17,44 @@ const router = new VueRouter({
                     path: "/",
                     name: "Form",
                     component: Form,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/list",
                     name: "List",
                     component: List,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/report",
                     name: "Report",
                     component: Report,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/calendar",
                     name: "Calendar",
                     component: Calendar,
+                    meta: { authOnly: true }
                 },
                 {
                     path: "/register",
                     name: "Register",
                     component: Register,
+                    meta: { guestOnly: true }
                 },
                 {
                     path: "/login",
                     name: "Login",
                     component: Login,
-                    // meta: { guestOnly: true }
+                    meta: { guestOnly: true }
                 },
-//         {
-//             path: "/about",
-//             name: "about",
-//             component: about,
-//             meta: { authOnly: true }
-//         }
     ]
 });
 
-// function isLoggedIn() {
-//     return localStorage.getItem("auth");
-// }
+function isLoggedIn() {
+    return localStorage.getItem("auth");
+}
 
 // router.beforeEach((to, from, next) => {
 //     if (to.matched.some(record => record.meta.authOnly)) {
@@ -67,7 +65,7 @@ const router = new VueRouter({
 //         }
 //     } else if (to.matched.some(record => record.meta.guestOnly)) {
 //         if (isLoggedIn()) {
-//             next("/about");
+//             next("/");
 //         } else {
 //             next();
 //         }

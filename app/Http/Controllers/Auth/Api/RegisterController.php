@@ -17,14 +17,13 @@ class RegisterController extends Controller
         // リクエストを検証します。
         $this->validator($request->all())->validate();
 
-        // ユーザーの作成とトークンの作成します
+        // ユーザーの作成をします
         $data = DB::transaction(function () use ($request) {
             $user = $this->create($request->all());
-            $token = $user->createToken('token-name')->plainTextToken;
-            return json_encode(['token' => $token, 'user' => $user]);
+            return json_encode(['user' => $user]);
         });
-        // userとtokenのjsonを返却
-        return response($data);
+        // userのjsonを返却
+        return $data;
     }
 
     /**

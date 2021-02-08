@@ -10,7 +10,6 @@
             </v-toolbar-title>
 
             <v-tabs
-                v-if="$store.state.auth.token"
                 v-model="tab"
             >
                 <v-tab
@@ -24,7 +23,7 @@
 
             <v-spacer></v-spacer>
 
-            <span v-if="$store.state.auth.token">{{ $store.state.auth.user.name }}さん</span>
+            <span>{{ $store.state.auth.user.name }}さん</span>
 
             <v-btn
                 color="pink accent-3"
@@ -102,8 +101,10 @@ export default {
 
         logout() {
             this.$store.dispatch('auth/logout');
+            localStorage.removeItem("auth");
+            this.$router.push("/login");
         }
-    }
+    },
 }
 </script>
 

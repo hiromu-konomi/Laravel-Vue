@@ -123,7 +123,9 @@ export default {
                     this.registerForm.password = '';
                     this.registerForm.password_confirmation = '';
                 } else {
-                    this.$store.dispatch("auth/register", this.registerForm);
+                    axios.get("/sanctum/csrf-cookie").then(response => {
+                        this.$store.dispatch("auth/register", this.registerForm);
+                    });
                     localStorage.setItem("auth", "true");
                     this.$router.push({name: "Form"});
                 }

@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const state = {
     exCateDatas: [],
     inCateDatas: [],
@@ -85,8 +87,6 @@ const actions = {
             commit("getInCateDatas", res.data);
         }).catch(error => console.log(error));
     },
-
-    registerExCateDatas({commit}, userId) {},
 
     setExCateId({commit}, id) {
         commit("setExCateId", id);

@@ -154,7 +154,7 @@ export default {
 
     methods: {
         async refresh() {
-            await this.$store.dispatch('category/getExCateDatas');
+            await this.$store.dispatch('category/getExCateDatas', this.$store.state.auth.user.id);
         },
 
         async deleteExCategory(id) {
@@ -179,6 +179,7 @@ export default {
 
         async addExCategory() {
             if (this.$refs.test_form.validate()) {
+                this.exCateData.user_id = this.$store.state.auth.user.id;
                 await axios.post('/api/ex_categories', this.exCateData);
                 this.$refs.test_form.reset();
                 await this.refresh();

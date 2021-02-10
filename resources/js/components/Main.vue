@@ -2,6 +2,37 @@
     <v-app>
         <Header/>
 
+        <v-navigation-drawer
+            v-model="$store.state.drawer"
+            fixed
+            temporary
+        >
+            <v-list
+                nav
+                dense
+            >
+                <v-list-item-title>
+                    <span
+                        v-if="hasToken"
+                        class="userName"
+                    >
+                        {{ $store.state.auth.user.name }}さん
+                    </span>
+                </v-list-item-title>
+                <v-list-item-action>
+                    <v-btn
+                        v-if="hasToken"
+                        color="pink accent-3"
+                        dark
+                        depressed
+                        @click="logout"
+                    >
+                        <span class="font-weight-bold">ログアウト</span>
+                    </v-btn>
+                </v-list-item-action>
+            </v-list>
+        </v-navigation-drawer>
+
         <v-main :style="{ background: $vuetify.theme.themes.light.background }">
             <v-container fluid fill-height>
                 <router-view/>
@@ -16,6 +47,12 @@ import Header from './parts/Header.vue';
 export default {
     components: {
         Header
+    },
+
+    data() {
+        return {
+            hasToken: window.localStorage.getItem("auth"),
+        }
     },
 
     async created() {
@@ -53,6 +90,12 @@ export default {
             }
             this.$store.dispatch('payment/setExDatasWithCateDatas', exDatas);
             this.$store.dispatch('payment/setInDatasWithCateDatas', inDatas);
+        },
+
+        logout() {
+            this.$store.dispatch('auth/logout');
+            localStorage.removeItem("auth");
+            this.$router.push("/login");
         },
     },
 }

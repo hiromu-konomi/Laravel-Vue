@@ -77,11 +77,12 @@ const actions = {
         });
     },
 
-    login({commit}, request) {
+    login({dispatch, commit}, request) {
             axios.post('api/login', request)
                 .then((result) => {
-                    console.log(result);
                     commit("setUser", result.data.user[0]);
+                    dispatch("category/getExCateDatas", result.data.user[0].id, {root: true});
+                    dispatch("category/getInCateDatas", result.data.user[0].id, {root: true});
                     // commit("setMessage", result.data.message);
                     // console.log("message = " + result.data.message + " + " + this.state.message);
                 })

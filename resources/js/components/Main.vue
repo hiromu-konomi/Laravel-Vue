@@ -97,6 +97,8 @@ export default {
 
         logout() {
             this.$store.dispatch('auth/logout');
+            this.$store.dispatch('switchOff');
+            this.$store.dispatch('category/removeCateDatas');
             localStorage.removeItem("auth");
             this.$router.push("/login");
         },

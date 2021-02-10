@@ -4,6 +4,7 @@
         color="green"
         dark
     >
+        <v-app-bar-nav-icon @click="switchDrawer"></v-app-bar-nav-icon>
         <v-toolbar-title>
             <span class="font-weight-bold">楽楽Kakebo</span>
         </v-toolbar-title>
@@ -21,16 +22,16 @@
             </v-tab>
         </v-tabs>
 
-        <v-spacer></v-spacer>
+        <!-- <v-spacer></v-spacer> -->
 
-        <span
+        <!-- <span
             v-if="hasToken"
             class="userName"
         >
             {{ $store.state.auth.user.name }}さん
-        </span>
+        </span> -->
 
-        <v-btn
+        <!-- <v-btn
             v-if="hasToken"
             color="pink accent-3"
             dark
@@ -38,7 +39,7 @@
             @click="logout"
         >
             <span class="font-weight-bold">ログアウト</span>
-        </v-btn>
+        </v-btn> -->
     </v-app-bar>
 </template>
 
@@ -63,10 +64,8 @@ export default {
     },
 
     methods: {
-        logout() {
-            this.$store.dispatch('auth/logout');
-            localStorage.removeItem("auth");
-            this.$router.push("/login");
+        switchDrawer() {
+            this.$store.dispatch('switch');
         }
     }
 }

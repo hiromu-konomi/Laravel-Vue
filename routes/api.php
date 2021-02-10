@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\Api\RegisterController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\Api\LoginController;
 use App\Http\Controllers\ExpendsController;
 use App\Http\Controllers\IncomesController;
 use App\Http\Controllers\ExCategoriesController;

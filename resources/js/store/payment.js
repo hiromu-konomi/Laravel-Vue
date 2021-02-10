@@ -175,8 +175,8 @@ const actions = {
         });
     },
 
-    async getExCateDatas({commit}) {
-        await axios.get('/api/ex_categories').then((res) => {
+    async getExCateDatas({commit}, userId) {
+        await axios.get('/api/ex_categories/' + userId).then((res) => {
             commit("getExCateDatas", res.data);
         }).catch(error => console.log(error));
     },

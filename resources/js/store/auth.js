@@ -25,7 +25,7 @@ const mutations = {
 }
 
 const actions = {
-    register({commit}, request) {
+    register({dispatch, commit}, request) {
         axios.post('api/register', request).then((result) => {
             commit("setUser", result.data.user);
             var exCategory = {
@@ -70,6 +70,8 @@ const actions = {
                 user_id: result.data.user.id
             };
             axios.post('/api/in_categories', inCategory);
+            dispatch("category/getExCateDatas", result.data.user.id, {root: true});
+            dispatch("category/getInCateDatas", result.data.user.id, {root: true});
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });

@@ -76,15 +76,15 @@ const mutations = {
 }
 
 const actions = {
-    async getExCateDatas({commit}) {
-        await axios.get('/api/ex_categories').then((res) => {
-            commit("getExCateDatas", res.data);
+    async getExCateDatas({commit}, userId) {
+        await axios.get('/api/ex_categories/' + userId).then((res) => {
+            commit("getExCateDatas", res.data.exCategories);
         }).catch(error => console.log(error));
     },
 
-    async getInCateDatas({commit}) {
-        await axios.get('/api/in_categories').then((res) => {
-            commit("getInCateDatas", res.data);
+    async getInCateDatas({commit}, userId) {
+        await axios.get('/api/in_categories/' + userId).then((res) => {
+            commit("getInCateDatas", res.data.inCategories);
         }).catch(error => console.log(error));
     },
 

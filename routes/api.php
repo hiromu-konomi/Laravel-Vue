@@ -28,12 +28,12 @@ Route::get('/incomes', [IncomesController::class, 'index']);
 Route::post('/incomes', [IncomesController::class, 'store']);
 Route::delete('/incomes/{income}', [IncomesController::class, 'destroy']);
 
-Route::get('/ex_categories', [ExCategoriesController::class, 'index']);
+Route::get('/ex_categories/{userId}', [ExCategoriesController::class, 'index']);
 Route::post('/ex_categories', [ExCategoriesController::class, 'store']);
 Route::get('/ex_categories/{exCategory}', [ExCategoriesController::class, 'show']);
 Route::delete('/ex_categories/{exCategory}', [ExCategoriesController::class, 'destroy']);
 
-Route::get('/in_categories', [InCategoriesController::class, 'index']);
+Route::get('/in_categories/{userId}', [InCategoriesController::class, 'index']);
 Route::post('/in_categories', [InCategoriesController::class, 'store']);
 Route::get('/in_categories/{inCategory}', [InCategoriesController::class, 'show']);
 Route::delete('/in_categories/{inCategory}', [InCategoriesController::class, 'destroy']);

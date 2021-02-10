@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class ExCategoriesController extends Controller
 {
-    public function index() {
-        return ExCategory::all();
+    public function index(int $userId) {
+        $query = ExCategory::query();
+        $exCategories = $query -> where('user_id', $userId) -> get();
+        return json_encode(['exCategories' => $exCategories]);
     }
 
     public function store(Request $request) {

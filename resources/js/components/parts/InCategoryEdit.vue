@@ -154,7 +154,7 @@ export default {
 
     methods: {
         async refresh() {
-            await this.$store.dispatch('category/getInCateDatas');
+            await this.$store.dispatch('category/getInCateDatas', this.$store.state.auth.user.id);
         },
 
         deleteInCategory(id) {
@@ -180,10 +180,10 @@ export default {
 
         async addInCategory() {
             if (this.$refs.test_form.validate()) {
-                axios.post('/api/in_categories', this.inCateData).then(() => {
-                    this.$refs.test_form.reset();
-                    this.refresh();
-                });
+                this.exCateData.user_id = this.$store.state.auth.user.id;
+                await axios.post('/api/in_categories', this.inCateData);
+                this.$refs.test_form.reset();
+                await this.refresh();
             }
         }
     }

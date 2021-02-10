@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class InCategoriesController extends Controller
 {
-    public function index() {
-        return InCategory::all();
+    public function index(int $userId) {
+        $query = InCategory::query();
+        $inCategories = $query -> where('user_id', $userId) -> get();
+        return json_encode(['inCategories' => $inCategories]);
     }
 
     public function store(Request $request) {

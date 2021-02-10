@@ -4,7 +4,7 @@ const state = {
     exCateDatas: [],
     inCateDatas: [],
     exCateId: undefined,
-    inCateId: undefined,
+    inCateId: undefined
 }
 
 const getters = {
@@ -73,6 +73,13 @@ const mutations = {
     setInCateId(state, id) {
         state.inCateId = id;
     },
+
+    removeCateDatas(state) {
+        state.exCateDatas = [];
+        state.inCateDatas = [];
+        state.exCateId = undefined;
+        state.inCateId = undefined;
+    }
 }
 
 const actions = {
@@ -95,6 +102,10 @@ const actions = {
     setInCateId({commit}, id) {
         commit("setInCateId", id);
     },
+
+    removeCateDatas({commit}) {
+        commit("removeCateDatas");
+    }
 }
 
 export default {

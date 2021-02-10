@@ -10,7 +10,27 @@ const store = new Vuex.Store({
     modules: {
         auth,
         category,
-        payment
+        payment,
+    },
+
+    state: {
+        drawer: false,
+    },
+
+    getters: {
+
+    },
+
+    mutations: {
+        switch(state) {
+            state.drawer = true;
+        }
+    },
+
+    actions: {
+        switch({commit}) {
+            commit("switch");
+        }
     }
 })
 

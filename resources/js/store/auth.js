@@ -4,16 +4,9 @@ const state = {
         id: undefined,
         name: undefined
     },
-    token: window.localStorage.getItem("auth")
 }
 
-const getters = {
-    userName(state) {
-        const userName = state.user.name;
-        console.log("userName = " + userName);
-        return userName;
-    }
-}
+const getters = {}
 
 const mutations = {
     setUser(state, user) {
@@ -35,6 +28,48 @@ const actions = {
     register({commit}, request) {
         axios.post('api/register', request).then((result) => {
             commit("setUser", result.data.user);
+            var exCategory = {
+                ex_category_name: '食費',
+                ex_category_color: 'red',
+                user_id: result.data.user.id
+            };
+            axios.post('/api/ex_categories', exCategory);
+            var exCategory = {
+                ex_category_name: '交通費',
+                ex_category_color: 'green',
+                user_id: result.data.user.id
+            };
+            axios.post('/api/ex_categories', exCategory);
+            var exCategory = {
+                ex_category_name: '住居費',
+                ex_category_color: 'indigo',
+                user_id: result.data.user.id
+            };
+            axios.post('/api/ex_categories', exCategory);
+            var exCategory = {
+                ex_category_name: 'その他',
+                ex_category_color: 'orange',
+                user_id: result.data.user.id
+            };
+            axios.post('/api/ex_categories', exCategory);
+            var inCategory = {
+                in_category_name: '財布',
+                in_category_color: 'red',
+                user_id: result.data.user.id
+            };
+            axios.post('/api/in_categories', inCategory);
+            var inCategory = {
+                in_category_name: '銀行',
+                in_category_color: 'blue',
+                user_id: result.data.user.id
+            };
+            axios.post('/api/in_categories', inCategory);
+            var inCategory = {
+                in_category_name: 'その他',
+                in_category_color: 'orange',
+                user_id: result.data.user.id
+            };
+            axios.post('/api/in_categories', inCategory);
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });

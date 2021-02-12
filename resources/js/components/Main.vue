@@ -62,42 +62,19 @@ export default {
     methods: {
         async refresh() {
             const userId = this.$store.state.auth.user.id
+            // 画面がリロードされた場合（ユーザー登録時、ログイン時にはこの時点でまだローカルストレージに userId がセットされてない）
             if (userId) {
-                await this.$store.dispatch('payment/getExDatas');
-                await this.$store.dispatch('payment/getInDatas');
-                await this.$store.dispatch('payment/getExCateDatas', userId);
+                await this.$store.dispatch('payment/getExDatas', userId);
+                await this.$store.dispatch('payment/getInDatas', userId);
                 await this.$store.dispatch('category/getExCateDatas', userId);
                 await this.$store.dispatch('category/getInCateDatas', userId);
-                let exDatas = [];
-                let inDatas = [];
-                for (var exData of this.$store.state.payment.exDatas) {
-                    if (exData.ex_category_id) {
-                        this.$store.dispatch('category/setExCateId', exData.ex_category_id);
-                        exData.ex_category_name = this.$store.getters['category/getExCateName'];
-                        exData.ex_category_color = this.$store.getters['category/getExCateColor'];
-                        exDatas.push(exData);
-                    } else {
-                        exDatas.push(exData);
-                    }
-                }
-                for (var inData of this.$store.state.payment.inDatas) {
-                    if (inData.in_category_id) {
-                        this.$store.dispatch('category/setInCateId', inData.in_category_id);
-                        inData.in_category_name = this.$store.getters['category/getInCateName'];
-                        inData.in_category_color = this.$store.getters['category/getInCateColor'];
-                        inDatas.push(inData);
-                    } else {
-                        inDatas.push(inData);
-                    }
-                }
-                this.$store.dispatch('payment/setExDatasWithCateDatas', exDatas);
-                this.$store.dispatch('payment/setInDatasWithCateDatas', inDatas);
             }
         },
 
         logout() {
             this.$store.dispatch('auth/logout');
             this.$store.dispatch('switchOff');
+            this.$store.dispatch('payment/removeDatas');
             this.$store.dispatch('category/removeCateDatas');
             localStorage.removeItem("auth");
             this.$router.push("/login");

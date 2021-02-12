@@ -257,44 +257,16 @@ export default {
         async submit() {
             if (this.$refs.test_form.validate()) {
                 if (this.exForm) {
+                    this.exData.user_id = this.$store.state.auth.user.id;
                     await axios.post('/api/expends', this.exData);
-                    await this.$store.dispatch('payment/getExDatas');
-
-                    // 支出データにカテゴリーの名前と色を追加し直す処理
-                    let exDatas = [];
-                    for (var exData of this.$store.state.payment.exDatas) {
-                        if (exData.ex_category_id) {
-                            this.$store.dispatch('category/setExCateId', exData.ex_category_id);
-                            exData.ex_category_name = this.$store.getters['category/getExCateName'];
-                            exData.ex_category_color = this.$store.getters['category/getExCateColor'];
-                            exDatas.push(exData);
-                        } else {
-                            exDatas.push(exData);
-                        }
-                    }
-                    this.$store.dispatch('payment/setExDatasWithCateDatas', exDatas);
-
+                    await this.$store.dispatch('payment/getExDatas', this.$store.state.auth.user.id);
                     await this.$router.push({name:'List'});
                     this.exData = {};
                     this.inData = {};
                 } else if (this.inForm) {
+                    this.inData.user_id = this.$store.state.auth.user.id;
                     await axios.post('/api/incomes', this.inData);
-                    await this.$store.dispatch('payment/getInDatas');
-
-                    // 収入データにカテゴリーの名前と色を追加し直す処理
-                    let inDatas = [];
-                    for (var inData of this.$store.state.payment.inDatas) {
-                        if (inData.in_category_id) {
-                            this.$store.dispatch('category/setInCateId', inData.in_category_id);
-                            inData.in_category_name = this.$store.getters['category/getInCateName'];
-                            inData.in_category_color = this.$store.getters['category/getInCateColor'];
-                            inDatas.push(inData);
-                        } else {
-                            inDatas.push(inData);
-                        }
-                    }
-                    this.$store.dispatch('payment/setInDatasWithCateDatas', inDatas);
-                    
+                    await this.$store.dispatch('payment/getInDatas', this.$store.state.auth.user.id);
                     await this.$router.push({name:'List'});
                     this.exData = {};
                     this.inData = {};

@@ -1,5 +1,6 @@
+import router from '../router';
+
 const state = {
-    message: null,
     user: {
         id: undefined,
         name: undefined
@@ -12,10 +13,6 @@ const mutations = {
     setUser(state, user) {
         state.user.id = user.id;
         state.user.name = user.name;
-    },
-
-    setMessage(state, message) {
-        state.message = message;
     },
 
     removeUser(state) {
@@ -76,17 +73,21 @@ const actions = {
             console.log(`Error! HTTP Status: ${error}`);
         });
     },
-
+  
     login({dispatch, commit}, request) {
             axios.post('api/login', request)
                 .then((result) => {
-                    commit("setUser", result.data.user[0]);
-                    dispatch('payment/getExDatas', result.data.user[0].id, {root: true});
-                    dispatch('payment/getInDatas', result.data.user[0].id, {root: true});
-                    dispatch("category/getExCateDatas", result.data.user[0].id, {root: true});
-                    dispatch("category/getInCateDatas", result.data.user[0].id, {root: true});
-                    // commit("setMessage", result.data.message);
-                    // console.log("message = " + result.data.message + " + " + this.state.message);
+                    if(result.data.user.length){
+                      commit("setUser", result.data.user[0]);
+                      dispatch('payment/getExDatas', result.data.user[0].id, {root: true});
+                      dispatch('payment/getInDatas', result.data.user[0].id, {root: true});
+                      dispatch("category/getExCateDatas", result.data.user[0].id, {root: true});
+                      dispatch("category/getInCateDatas", result.data.user[0].id, {root: true});
+                      localStorage.setItem("auth", "true");
+                      router.push({name: "Form"});
+                    } else {
+                       alert("メールアドレスまたはパスワードが違います");
+                    }
                 })
                 .catch(error => {
                     console.log(`Error! HTTP Status: ${error}`);

@@ -126,8 +126,6 @@ export default {
                     axios.get("/sanctum/csrf-cookie").then(response => {
                         this.$store.dispatch("auth/register", this.registerForm);
                     });
-                    localStorage.setItem("auth", "true");
-                    this.$router.push({name: "Form"});
                 }
             }
         }

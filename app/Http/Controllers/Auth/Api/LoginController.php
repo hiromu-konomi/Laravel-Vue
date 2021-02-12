@@ -18,14 +18,12 @@ class LoginController extends Controller
             $keyword_email = $request -> input('email');
 
             $query = User::query();
-            $user = $query -> where('email', $keyword_email) -> get();
+            $users = $query -> where('email', $keyword_email) -> get();
 
-            // if($users != null){
-                return json_encode(['user' => $user]);
-            // }else {
                 // $message = "メールアドレスまたはパスワードが違います";
-                // return $message;
-            // }
+                return $user = json_encode(['user' => $users]);
+
+                // return compact('user', 'message');
 
         });
         return $data;

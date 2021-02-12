@@ -1,5 +1,6 @@
+import router from '../router';
+
 const state = {
-    message: null,
     user: {
         id: undefined,
         name: undefined
@@ -12,10 +13,6 @@ const mutations = {
     setUser(state, user) {
         state.user.id = user.id;
         state.user.name = user.name;
-    },
-
-    setMessage(state, message) {
-        state.message = message;
     },
 
     removeUser(state) {
@@ -77,17 +74,15 @@ const actions = {
         });
     },
 
-    login({commit}, request) {
-            axios.post('api/login', request)
-                .then((result) => {
-                    console.log(result);
-                    commit("setUser", result.data.user[0]);
-                    // commit("setMessage", result.data.message);
-                    // console.log("message = " + result.data.message + " + " + this.state.message);
-                })
-                .catch(error => {
-                    console.log(`Error! HTTP Status: ${error}`);
-                });
+    async login({commit}, request) {
+        var result = await axios.post('api/login', request);
+        if(result.data.user.length){
+            commit("setUser", result.data.user[0]);
+            localStorage.setItem("auth", "true");
+            router.push({name: "Form"});
+        } else {
+            alert("メールアドレスまたはパスワードが違います");
+        }
     },
 
     logout({commit}) {

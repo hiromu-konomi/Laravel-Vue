@@ -180,7 +180,7 @@ export default {
 
         async addInCategory() {
             if (this.$refs.test_form.validate()) {
-                this.exCateData.user_id = this.$store.state.auth.user.id;
+                this.inCateData.user_id = this.$store.state.auth.user.id;
                 await axios.post('/api/in_categories', this.inCateData);
                 this.$refs.test_form.reset();
                 await this.refresh();

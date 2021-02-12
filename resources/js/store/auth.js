@@ -73,16 +73,25 @@ const actions = {
             console.log(`Error! HTTP Status: ${error}`);
         });
     },
-
-    async login({commit}, request) {
-        var result = await axios.post('api/login', request);
-        if(result.data.user.length){
-            commit("setUser", result.data.user[0]);
-            localStorage.setItem("auth", "true");
-            router.push({name: "Form"});
-        } else {
-            alert("メールアドレスまたはパスワードが違います");
-        }
+  
+    login({dispatch, commit}, request) {
+            axios.post('api/login', request)
+                .then((result) => {
+                    if(result.data.user.length){
+                      commit("setUser", result.data.user[0]);
+                      dispatch('payment/getExDatas', result.data.user[0].id, {root: true});
+                      dispatch('payment/getInDatas', result.data.user[0].id, {root: true});
+                      dispatch("category/getExCateDatas", result.data.user[0].id, {root: true});
+                      dispatch("category/getInCateDatas", result.data.user[0].id, {root: true});
+                      localStorage.setItem("auth", "true");
+                      router.push({name: "Form"});
+                    } else {
+                       alert("メールアドレスまたはパスワードが違います");
+                    }
+                })
+                .catch(error => {
+                    console.log(`Error! HTTP Status: ${error}`);
+                });
     },
 
     logout({commit}) {

@@ -3,7 +3,6 @@ import moment from "moment"
 const state = {
     exDatas: [],
     inDatas: [],
-    exCateDatas: [],
 }
 
 const getters = {
@@ -52,9 +51,9 @@ const getters = {
         return events;
     },
 
-    getExTotalPriceByCategory(state) {
+    getExTotalPriceByCategory(state, getters, rootState) {
         const totalExPriceByCategory = [];
-        for(var exCate of state.exCateDatas) {
+        for(var exCate of rootState.category.exCateDatas) {
             const totalExPrice = 0;
             for(var ex of state.exDatas) {
                 if(ex.ex_category_id === exCate.id){
@@ -68,11 +67,11 @@ const getters = {
         return totalExPriceByCategory;
     },
 
-    getChartOptions(state) {
+    getChartOptions(state, getters, rootState) {
         const exCategoryName = [];
         const exBackgroundColor = [];
         const exBorderColor = [];
-        for(var exCate of state.exCateDatas) {
+        for(var exCate of rootState.category.exCateDatas) {
             exCategoryName.push(exCate.ex_category_name);
 
             if(exCate.ex_category_color === 'red'){
@@ -149,35 +148,28 @@ const mutations = {
         state.inDatas = resData;
     },
 
-    getExCateDatas(state, resData) {
-        state.exCateDatas = resData;
-    },
-
-    setExDatasWithCateDatas(state, exDatas) {
-        state.exDatas = exDatas;
-    },
-
-    setInDatasWithCateDatas(state, inDatas) {
-        state.inDatas = inDatas;
-    },
+    removeDatas(state) {
+        state.exDatas = [];
+        state.inDatas = [];
+    }
 }
 
 const actions = {
-    async getExDatas({commit}) {
-        await axios.get('/api/expends').then((res) => {
-            commit("getExDatas", res.data);
+    async getExDatas({commit}, userId) {
+        await axios.get('/api/expends/' + userId).then((res) => {
+            commit("getExDatas", res.data.expends);
         });
     },
 
-    async getInDatas({commit}) {
-        await axios.get('/api/incomes').then((res) => {
-            commit("getInDatas", res.data);
+    async getInDatas({commit}, userId) {
+        await axios.get('/api/incomes/' + userId).then((res) => {
+            commit("getInDatas", res.data.incomes);
         });
     },
 
     async getExCateDatas({commit}, userId) {
         await axios.get('/api/ex_categories/' + userId).then((res) => {
-            commit("getExCateDatas", res.data);
+            commit("getExCateDatas", res.data.exCategories);
         }).catch(error => console.log(error));
     },
 
@@ -188,6 +180,10 @@ const actions = {
     setInDatasWithCateDatas({commit}, inDatas) {
         commit("setInDatasWithCateDatas", inDatas);
     },
+
+    removeDatas({commit}) {
+        commit("removeDatas");
+    }
 }
 
 export default {

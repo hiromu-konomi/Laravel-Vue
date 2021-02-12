@@ -18,19 +18,23 @@ const store = new Vuex.Store({
         drawer: false,
     },
 
-    getters: {
-
-    },
-
     mutations: {
         switch(state) {
             state.drawer = true;
+        },
+
+        switchOff(state) {
+            state.drawer = false;
         }
     },
 
     actions: {
         switch({commit}) {
             commit("switch");
+        },
+
+        switchOff({commit}) {
+            commit("switchOff");
         }
     },
 

@@ -4,7 +4,10 @@
         color="green"
         dark
     >
-        <v-app-bar-nav-icon @click="switchDrawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon
+            v-if="hasToken"
+            @click="switchDrawer"
+        ></v-app-bar-nav-icon>
         <v-toolbar-title>
             <span class="font-weight-bold">楽楽Kakebo</span>
         </v-toolbar-title>
